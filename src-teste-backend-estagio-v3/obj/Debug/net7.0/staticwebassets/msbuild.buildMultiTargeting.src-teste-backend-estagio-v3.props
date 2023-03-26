@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\src-teste-backend-estagio-v3.props" />
-</Project>

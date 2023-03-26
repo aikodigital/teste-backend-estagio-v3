@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\src-teste-backend-estagio-v3.props" />
-</Project>
