@@ -1,0 +1,10 @@
+package com.gpmrks.testebackendestagiov3.equipment_position_history.repository;
+
+import com.gpmrks.testebackendestagiov3.equipment_position_history.entity.EquipmentPositionHistory;
+import com.gpmrks.testebackendestagiov3.equipment_position_history.entity.EquipmentPositionHistoryId;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EquipmentPositionHistoryRepository extends JpaRepository<EquipmentPositionHistory, EquipmentPositionHistoryId> {
+}
