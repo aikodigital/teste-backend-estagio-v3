@@ -1,8 +1,10 @@
 package com.gpmrks.testebackendestagiov3.equipment_state.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.UUID;
 
-public class EquipmentStateDTO {
+public class EquipmentStateDTO extends RepresentationModel<EquipmentStateDTO> {
 
     private UUID id;
     private String name;

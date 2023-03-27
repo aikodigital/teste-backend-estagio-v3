@@ -17,9 +17,7 @@ import java.util.UUID;
 public class EquipmentModelStateHourlyEarningsServiceImpl implements EquipmentModelStateHourlyEarningsService {
 
     private EquipmentModelStateHourlyEarningsRepository equipmentModelStateHourlyEarningsRepository;
-
     private EquipmentModelService equipmentModelService;
-
     private EquipmentStateService equipmentStateService;
 
     @Autowired

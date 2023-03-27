@@ -13,9 +13,6 @@ import org.springframework.context.annotation.Configuration;
                 contact = @Contact(
                         name = "Guilherme M.", email = "guilhermepereiramarques@hotmail.com", url = "https://www.linkedin.com/in/guilherme-p-marques/"
                 ),
-                license = @io.swagger.v3.oas.annotations.info.License(
-                        name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
-                ),
                 description = "${api.description}"
         ),
         servers = {@Server(

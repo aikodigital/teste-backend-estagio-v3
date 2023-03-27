@@ -1,16 +1,18 @@
 package com.gpmrks.testebackendestagiov3.equipment_position_history.dto;
 
 import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
+import org.springframework.hateoas.RepresentationModel;
 
-import java.time.LocalDate;
-public class EquipmentPositionHistoryDTO {
+import java.time.LocalDateTime;
+
+public class EquipmentPositionHistoryDTO extends RepresentationModel<EquipmentPositionHistoryDTO> {
 
     private Equipment equipment;
-    private LocalDate date;
+    private LocalDateTime date;
     private Float lat;
     private Float lon;
 
-    public EquipmentPositionHistoryDTO(Equipment equipment, LocalDate date, Float lat, Float lon) {
+    public EquipmentPositionHistoryDTO(Equipment equipment, LocalDateTime date, Float lat, Float lon) {
         this.equipment = equipment;
         this.date = date;
         this.lat = lat;
@@ -21,7 +23,7 @@ public class EquipmentPositionHistoryDTO {
         return equipment;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 

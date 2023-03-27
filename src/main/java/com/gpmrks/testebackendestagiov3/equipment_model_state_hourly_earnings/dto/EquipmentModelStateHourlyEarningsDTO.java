@@ -2,7 +2,9 @@ package com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.d
 
 import com.gpmrks.testebackendestagiov3.equipment_model.entity.EquipmentModel;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
-public class EquipmentModelStateHourlyEarningsDTO {
+import org.springframework.hateoas.RepresentationModel;
+
+public class EquipmentModelStateHourlyEarningsDTO extends RepresentationModel<EquipmentModelStateHourlyEarningsDTO> {
 
     private EquipmentModel equipmentModel;
     private EquipmentState equipmentState;

@@ -17,7 +17,6 @@ public interface EquipmentModelStateHourlyEarningsRepository extends JpaReposito
     List<EquipmentModelStateHourlyEarnings> getEquipmentModelStateHourlyEarningsByModelId(UUID equipModelId);
     @Query("FROM EquipmentModelStateHourlyEarnings e WHERE e.equipmentState.id = :equipStateId")
     List<EquipmentModelStateHourlyEarnings> getEquipmentModelStateHourlyEarningsByStateId(UUID equipStateId);
-
     @Query("FROM EquipmentModelStateHourlyEarnings e WHERE e.equipmentModel.id = :modelId AND e.equipmentState.id = :stateId")
     EquipmentModelStateHourlyEarnings getEquipmentModelStateHourlyEarningsByModelAndStateIds(UUID modelId, UUID stateId);
 }

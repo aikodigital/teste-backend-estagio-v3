@@ -4,21 +4,21 @@ import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class EquipmentStateHistoryId implements Serializable {
 
     private Equipment equipment;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     private EquipmentState equipmentState;
 
     public EquipmentStateHistoryId() {
     }
 
-    public EquipmentStateHistoryId(Equipment equipment, LocalDate date, EquipmentState equipmentState) {
+    public EquipmentStateHistoryId(Equipment equipment, LocalDateTime date, EquipmentState equipmentState) {
         this.equipment = equipment;
         this.date = date;
         this.equipmentState = equipmentState;
@@ -32,11 +32,11 @@ public class EquipmentStateHistoryId implements Serializable {
         this.equipment = equipment;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

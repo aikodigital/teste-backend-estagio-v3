@@ -46,9 +46,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     public Equipment createEquipment(EquipmentForm equipmentToCreate) {
         Equipment equipment = new Equipment();
         equipment.setEquipmentModel(equipmentModelService.getEquipModelById(equipmentToCreate.getEquipmentModelId()));
-        equipment.setId(UUID.randomUUID());
         equipment.setName(equipmentToCreate.getName());
-
         equipmentRepository.save(equipment);
 
         return equipment;

@@ -1,12 +1,11 @@
 package com.gpmrks.testebackendestagiov3.equipment_state_history.entity;
 
 import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
-import com.gpmrks.testebackendestagiov3.equipment_position_history.dto.EquipmentPositionHistoryDTO;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 import com.gpmrks.testebackendestagiov3.equipment_state_history.dto.EquipmentStateHistoryDTO;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "equipment_state_history")
@@ -20,7 +19,7 @@ public class EquipmentStateHistory {
 
     @Id
     @Column(name = "date")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,11 +27,12 @@ public class EquipmentStateHistory {
     private EquipmentState equipmentState;
 
     public EquipmentStateHistory() {
+        this.date = LocalDateTime.now();
     }
 
-    public EquipmentStateHistory(Equipment equipment, LocalDate date, EquipmentState equipmentState) {
+    public EquipmentStateHistory(Equipment equipment, LocalDateTime date, EquipmentState equipmentState) {
         this.equipment = equipment;
-        this.date = date;
+        this.date = LocalDateTime.now();
         this.equipmentState = equipmentState;
     }
 
@@ -44,11 +44,11 @@ public class EquipmentStateHistory {
         this.equipment = equipment;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

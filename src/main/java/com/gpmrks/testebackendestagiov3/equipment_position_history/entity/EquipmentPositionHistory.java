@@ -5,6 +5,7 @@ import com.gpmrks.testebackendestagiov3.equipment_position_history.dto.Equipment
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "equipment_position_history")
@@ -18,7 +19,7 @@ public class EquipmentPositionHistory {
 
     @Id
     @Column(name = "date")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name = "lat")
     private Float lat;
@@ -27,11 +28,12 @@ public class EquipmentPositionHistory {
     private Float lon;
 
     public EquipmentPositionHistory() {
+        this.date = LocalDateTime.now();
     }
 
-    public EquipmentPositionHistory(Equipment equipment, LocalDate date, Float lat, Float lon) {
+    public EquipmentPositionHistory(Equipment equipment, LocalDateTime date, Float lat, Float lon) {
         this.equipment = equipment;
-        this.date = date;
+        this.date = LocalDateTime.now();
         this.lat = lat;
         this.lon = lon;
     }
@@ -44,11 +46,11 @@ public class EquipmentPositionHistory {
         this.equipment = equipment;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
