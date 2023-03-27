@@ -16,9 +16,6 @@ import org.springframework.context.annotation.Configuration;
                 description = "${api.description}"
         ),
         servers = {@Server(
-                url = "https://teste-backend-estagio-v3.onrender.com/",
-                description = "Production"
-        ), @Server(
                 url = "${api.server.url}",
                 description = "Development"
         )}
