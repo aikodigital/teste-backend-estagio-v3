@@ -5,12 +5,6 @@ RUN mvn clean package -DskipTests
 #DATA
 COPY data/data.sql /docker-entrypoint-initdb.d/
 
-ENV POSTGRES_HOST=${DB_URL}
-ENV POSTGRES_PORT=5432
-ENV POSTGRES_DB=test
-ENV POSTGRES_USER=${DB_USER}
-ENV POSTGRES_PASSWORD=${DB_PASSWORD}
-#
 # Package stage
 #
 FROM openjdk:19-jdk-alpine

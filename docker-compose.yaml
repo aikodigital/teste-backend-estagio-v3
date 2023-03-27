@@ -5,22 +5,3 @@ services:
     image: gpmrks/teste-backend-estagio-v3:3.0.0
     ports:
       - "8080:8080"
-    environment:
-      DB_URL: ${DB_URL)
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-    depends_on:
-        - postgres
-    restart: always
-
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: mydb
-    volumes:
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
-    ports:
-      - "5432:5432"
-    restart: always
