@@ -1,0 +1,17 @@
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\bin\Debug\net6.0\EquipmentInfra.deps.json
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\bin\Debug\net6.0\EquipmentInfra.runtimeconfig.json
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\bin\Debug\net6.0\EquipmentInfra.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\bin\Debug\net6.0\EquipmentInfra.pdb
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\bin\Debug\net6.0\EquipmentDomain.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\bin\Debug\net6.0\EquipmentDomain.pdb
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.csproj.AssemblyReference.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.AssemblyInfoInputs.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.AssemblyInfo.cs
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.csproj.CoreCompileInputs.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.csproj.CopyComplete
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\refint\EquipmentInfra.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.pdb
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\EquipmentInfra.genruntimeconfig.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentInfra\obj\Debug\net6.0\ref\EquipmentInfra.dll
