@@ -1,5 +1,6 @@
 using AutoMapper;
 using TesteTecnico.Application.Application.Common.Exceptions;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStateHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStates;
 using TesteTecnico.Application.Domain.Entities;
 
@@ -8,12 +9,30 @@ namespace TesteTecnico.Application.Application.Services.Entities;
 public class EquipmentStateService : IEquipmentStateService
 {
     private readonly IEquipmentStateRepository _equipmentStateRepository;
+    private readonly IEquipmentStateHistoryRepository _equipmentStateHistoryRepository;
     private readonly IMapper _mapper;
 
-    public EquipmentStateService(IEquipmentStateRepository equipmentStateRepository, IMapper mapper)
+    public EquipmentStateService(
+        IEquipmentStateRepository equipmentStateRepository,
+        IEquipmentStateHistoryRepository equipmentStateHistoryRepository,
+        IMapper mapper)
     {
         _equipmentStateRepository = equipmentStateRepository;
+        _equipmentStateHistoryRepository = equipmentStateHistoryRepository;
         _mapper = mapper;
+    }
+
+    public async Task<EquipmentStateResponse> GetMostRecentStateOfEquipment(Guid equipmentId)
+    {
+        var mostRecentEquipmentState = await _equipmentStateHistoryRepository.GetMostRecentStateFromEquipment(equipmentId);
+        if (mostRecentEquipmentState is null)
+            throw new NotFoundException("Equipamento não possui um estado registrado.");
+
+        return new EquipmentStateResponse(
+            Id: mostRecentEquipmentState.EquipmentStateId,
+            Name: mostRecentEquipmentState.EquipmentState.Name,
+            Color: mostRecentEquipmentState.EquipmentState.Color
+        );
     }
 
     public async Task<EquipmentStateResponse> GetEquipmentStateByIdAsync(Guid equipmentStateId)

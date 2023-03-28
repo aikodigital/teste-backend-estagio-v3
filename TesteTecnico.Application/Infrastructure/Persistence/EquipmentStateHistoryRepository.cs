@@ -25,4 +25,14 @@ public class EquipmentStateHistoryRepository : GenericRepository<EquipmentStateH
         .Include(history => history.EquipmentState)
         .SingleOrDefaultAsync(history => history.Id == id);
     }
+
+    public async Task<EquipmentStateHistory?> GetMostRecentStateFromEquipment(Guid equipmentStateId)
+    {
+        return await _dbContext.EquipmentStateHistories
+        .AsNoTracking()
+        .Include(state => state.EquipmentState)
+        .Where(state => state.EquipmentId == equipmentStateId)
+        .OrderByDescending(state => state.Date)
+        .FirstOrDefaultAsync();
+    }
 }
