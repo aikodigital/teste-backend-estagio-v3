@@ -20,4 +20,15 @@ public class EquipmentPositionHistoryRepository : GenericRepository<EquipmentPos
         .AsNoTracking()
         .SingleOrDefaultAsync(position => position.Id == id);
     }
+
+    public async Task<EquipmentPositionHistory?> GetMostRecentEquipmentPosition(Guid equipmentId)
+    {
+        return await _dbContext.EquipmentPositionHistory
+        .AsNoTracking()
+        .Include(position => position.Equipment)
+            .ThenInclude(equipment => equipment.EquipmentModel)
+        .Where(position => position.EquipmentId == equipmentId)
+        .OrderByDescending(position => position.Date)
+        .FirstOrDefaultAsync();
+    }
 }

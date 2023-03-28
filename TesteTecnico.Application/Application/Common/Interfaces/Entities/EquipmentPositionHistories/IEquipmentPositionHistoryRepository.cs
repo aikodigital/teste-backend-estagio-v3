@@ -5,5 +5,6 @@ namespace TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipm
 
 public interface IEquipmentPositionHistoryRepository : IGenericRepository<EquipmentPositionHistory>
 {
+    Task<EquipmentPositionHistory?> GetMostRecentEquipmentPosition(Guid equipmentId);
     Task<EquipmentPositionHistory?> GetEquipmentPositionHistoryByIdAsync(Guid id);
 }

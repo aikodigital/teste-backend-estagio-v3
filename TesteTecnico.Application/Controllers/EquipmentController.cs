@@ -15,6 +15,12 @@ public class EquipmentController : ControllerBase
         _equipmentService = equipmentService;
     }
 
+    [HttpGet("posicao/{id:guid}")]
+    public async Task<ActionResult<EquipmentResponse>> GetMostRecentEquipment(Guid id)
+    {
+        return await _equipmentService.GetMostRecentEquipmentPosition(id);
+    }
+
     [HttpGet("{id:guid}", Name = "GetEquipmentById")]
     public async Task<ActionResult<EquipmentResponse?>> GetEquipmentById(Guid id)
     {

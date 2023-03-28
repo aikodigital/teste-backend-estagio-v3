@@ -2,6 +2,7 @@ using AutoMapper;
 using TesteTecnico.Application.Application.Common.Exceptions;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipamento;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentPositionHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipments;
 using TesteTecnico.Application.Domain.Entities;
 
@@ -11,15 +12,18 @@ public class EquipmentService : IEquipmentService
 {
     private readonly IEquipmentRepository _equipmentRepository;
     private readonly IEquipmentModelRepository _equipmentModelRepository;
+    private readonly IEquipmentPositionHistoryRepository _equipmentPositionHistoryRepository;
     private readonly IMapper _mapper;
     public EquipmentService(
         IEquipmentRepository equipmentRepository,
         IMapper mapper,
-        IEquipmentModelRepository equipmentModelRepository)
+        IEquipmentModelRepository equipmentModelRepository,
+        IEquipmentPositionHistoryRepository equipmentPositionHistoryRepository)
     {
         _equipmentRepository = equipmentRepository;
         _mapper = mapper;
         _equipmentModelRepository = equipmentModelRepository;
+        _equipmentPositionHistoryRepository = equipmentPositionHistoryRepository;
     }
 
     public async Task<EquipmentResponse> GetEquipmentByIdAsync(Guid equipmentId)
@@ -82,5 +86,18 @@ public class EquipmentService : IEquipmentService
 
         _equipmentRepository.Delete(equipmentToDelete);
         await _equipmentRepository.CommitAsync();
+    }
+
+    public async Task<EquipmentResponse> GetMostRecentEquipmentPosition(Guid equipmentId)
+    {
+        var mostRecentPosition = await _equipmentPositionHistoryRepository.GetMostRecentEquipmentPosition(equipmentId);
+        if (mostRecentPosition is null)
+            throw new NotFoundException("Equipamento ainda não possui uma posição cadastrada.");
+
+        return new EquipmentResponse(
+            Id: mostRecentPosition.EquipmentId,
+            mostRecentPosition.Equipment.Name,
+            mostRecentPosition.Equipment.EquipmentModel
+        );
     }
 }
