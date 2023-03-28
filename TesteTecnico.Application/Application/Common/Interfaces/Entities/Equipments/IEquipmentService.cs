@@ -4,7 +4,7 @@ namespace TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipa
 
 public interface IEquipmentService
 {
-    Task<EquipmentResponse?> GetEquipmentByIdAsync(Guid equipmentId);
+    Task<EquipmentResponse> GetEquipmentByIdAsync(Guid equipmentId);
     Task<EquipmentResponse> CreateEquipmentAsync(CreateEquipmentRequest equipmentRequest);
     Task<EquipmentResponse> EditEquipmentAsync(EditEquipmentRequest editEquipmentRequest, Guid routeId);
     Task DeleteEquipmentAsync(Guid equipmentId);

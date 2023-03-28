@@ -11,4 +11,5 @@ public class EquipmentPositionHistory
 
     [ForeignKey("EquipmentId")]
     public virtual Equipment Equipment { get; set; } = null!;
+    public Guid EquipmentId { get; set; }
 }

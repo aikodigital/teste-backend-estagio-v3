@@ -2,6 +2,7 @@ global using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipamento;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentPositionHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipments;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStates;
 using TesteTecnico.Application.Application.Middlewares;
@@ -25,6 +26,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IEquipmentModelRepository, EquipmentModelRepository>();
     builder.Services.AddScoped<IEquipmentStateService, EquipmentStateService>();
     builder.Services.AddScoped<IEquipmentStateRepository, EquipmentStateRepository>();
+    builder.Services.AddScoped<IEquipmentPositionHistoryService, EquipmentPositionHistoryService>();
+    builder.Services.AddScoped<IEquipmentPositionHistoryRepository, EquipmentPositionHistoryRepository>();
 }
 
 // Add services to the container.

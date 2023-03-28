@@ -22,7 +22,7 @@ public class EquipmentService : IEquipmentService
         _equipmentModelRepository = equipmentModelRepository;
     }
 
-    public async Task<EquipmentResponse?> GetEquipmentByIdAsync(Guid equipmentId)
+    public async Task<EquipmentResponse> GetEquipmentByIdAsync(Guid equipmentId)
     {
         Equipment? equipment = await _equipmentRepository.GetEquipmentByIdAsync(equipmentId);
         if (equipment is null)

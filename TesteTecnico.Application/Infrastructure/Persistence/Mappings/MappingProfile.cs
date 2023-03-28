@@ -1,5 +1,6 @@
 using AutoMapper;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentPositionHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipments;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStates;
 using TesteTecnico.Application.Domain.Entities;
@@ -21,5 +22,9 @@ public class MappingProfile : Profile
         CreateMap<CreateEquipmentState, EquipmentState>().ReverseMap();
         CreateMap<EditEquipmentState, EquipmentState>().ReverseMap();
         CreateMap<EquipmentState, EquipmentStateResponse>().ReverseMap();
+
+        CreateMap<CreateEquipmentPositionHistory, EquipmentPositionHistory>().ReverseMap();
+        CreateMap<EditEquipmentPositionHistory, EquipmentPositionHistory>().ReverseMap();
+        CreateMap<EquipmentPositionHistory, EquipmentPositionHistoryResponse>().ReverseMap();
     }
 }
