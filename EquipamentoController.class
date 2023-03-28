@@ -1,0 +1,47 @@
+@RestController
+@RequestMapping("/equipamentos")
+public class EquipamentoController {
+
+    @Autowired
+    private EquipamentoRepository equipamentoRepository;
+
+    @PostMapping
+    public Equipamento criarEquipamento(@RequestBody Equipamento equipamento) {
+        return equipamentoRepository.save(equipamento);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Equipamento> buscarEquipamentoPorId(@PathVariable Long id) {
+        Optional<Equipamento> equipamentoOptional = equipamentoRepository.findById(id);
+        if (equipamentoOptional.isPresent()) {
+            return ResponseEntity.ok(equipamentoOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Equipamento> atualizarEquipamento(@PathVariable Long id, @RequestBody Equipamento equipamentoAtualizado) {
+        Optional<Equipamento> equipamentoOptional = equipamentoRepository.findById(id);
+        if (equipamentoOptional.isPresent()) {
+            Equipamento equipamento = equipamentoOptional.get();
+            equipamento.setNome(equipamentoAtualizado.getNome());
+            equipamento.setModelo(equipamentoAtualizado.getModelo());
+            return ResponseEntity.ok(equipamentoRepository.save(equipamento));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirEquipamento(@PathVariable Long id) {
+        Optional<Equipamento> equipamentoOptional = equipamentoRepository.findById(id);
+        if (equipamentoOptional.isPresent()) {
+            equipamentoRepository.delete(equipamentoOptional.get());
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+}

@@ -1,0 +1,22 @@
+@Repository
+public interface EquipamentoRepository extends JpaRepository<Equipamento, Long> {
+    // métodos de busca personalizados aqui
+}
+
+@Repository
+public interface EstadoEquipamentoRepository extends JpaRepository<EstadoEquipamento, Long> {
+
+}
+
+@Repository
+public interface ModeloEquipamentoRepository extends JpaRepository<ModeloEquipamento, Long> {
+
+}
+
+@Repository
+public interface GanhoPorHoraRepository extends JpaRepository<GanhoPorHora, Long> {
+
+}
+
+@Repository
+public interface PosicaoEquipamentoRepository extends JpaRepository<PosicaoEquipamento, Long> {
