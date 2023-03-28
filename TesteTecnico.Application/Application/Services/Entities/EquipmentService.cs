@@ -26,6 +26,19 @@ public class EquipmentService : IEquipmentService
         _equipmentPositionHistoryRepository = equipmentPositionHistoryRepository;
     }
 
+    public async Task<EquipmentResponse> GetMostRecentEquipmentPosition(Guid equipmentId)
+    {
+        var mostRecentPosition = await _equipmentPositionHistoryRepository.GetMostRecentEquipmentPosition(equipmentId);
+        if (mostRecentPosition is null)
+            throw new NotFoundException("Equipamento ainda não possui uma posição cadastrada.");
+
+        return new EquipmentResponse(
+            Id: mostRecentPosition.EquipmentId,
+            mostRecentPosition.Equipment.Name,
+            mostRecentPosition.Equipment.EquipmentModel
+        );
+    }
+
     public async Task<EquipmentResponse> GetEquipmentByIdAsync(Guid equipmentId)
     {
         Equipment? equipment = await _equipmentRepository.GetEquipmentByIdAsync(equipmentId);
@@ -43,7 +56,7 @@ public class EquipmentService : IEquipmentService
 
         EquipmentModel? equipmentModel = await _equipmentModelRepository.GetEquipmentModelByIdAsync(equipmentRequest.EquipmentModelId);
         if (equipmentModel is null)
-            throw new BadRequestException("Modelo de equipamento com o id especificado não existe.");
+            throw new NotFoundException("Modelo de equipamento com o id especificado não existe.");
 
         Equipment equipmentToCreate = _mapper.Map<Equipment>(equipmentRequest);
         _equipmentRepository.Add(equipmentToCreate);
@@ -75,7 +88,7 @@ public class EquipmentService : IEquipmentService
         return new EquipmentResponse(
             Id: editedEquipment.Id,
             Name: editedEquipment.Name,
-            EquipmentModel: equipmentModel);
+            EquipmentModel: editedEquipment.EquipmentModel);
     }
 
     public async Task DeleteEquipmentAsync(Guid equipmentId)
@@ -86,18 +99,5 @@ public class EquipmentService : IEquipmentService
 
         _equipmentRepository.Delete(equipmentToDelete);
         await _equipmentRepository.CommitAsync();
-    }
-
-    public async Task<EquipmentResponse> GetMostRecentEquipmentPosition(Guid equipmentId)
-    {
-        var mostRecentPosition = await _equipmentPositionHistoryRepository.GetMostRecentEquipmentPosition(equipmentId);
-        if (mostRecentPosition is null)
-            throw new NotFoundException("Equipamento ainda não possui uma posição cadastrada.");
-
-        return new EquipmentResponse(
-            Id: mostRecentPosition.EquipmentId,
-            mostRecentPosition.Equipment.Name,
-            mostRecentPosition.Equipment.EquipmentModel
-        );
     }
 }
