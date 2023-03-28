@@ -4,6 +4,7 @@ using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipament
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentPositionHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipments;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStateHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStates;
 using TesteTecnico.Application.Application.Middlewares;
 using TesteTecnico.Application.Application.Services.Entities;
@@ -28,6 +29,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IEquipmentStateRepository, EquipmentStateRepository>();
     builder.Services.AddScoped<IEquipmentPositionHistoryService, EquipmentPositionHistoryService>();
     builder.Services.AddScoped<IEquipmentPositionHistoryRepository, EquipmentPositionHistoryRepository>();
+    builder.Services.AddScoped<IEquipmentStateHistoryService, EquipmentStateHistoryService>();
+    builder.Services.AddScoped<IEquipmentStateHistoryRepository, EquipmentStateHistoryRepository>();
 }
 
 // Add services to the container.

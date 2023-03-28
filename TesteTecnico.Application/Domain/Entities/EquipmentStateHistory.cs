@@ -9,4 +9,9 @@ public class EquipmentStateHistory
 
     [ForeignKey("EquipmentStateId")]
     public virtual EquipmentState EquipmentState { get; set; } = null!;
+    public Guid EquipmentStateId { get; set; }
+
+    [ForeignKey("EquipmentId")]
+    public virtual Equipment Equipment { get; set; } = null!;
+    public Guid EquipmentId { get; set; }
 }
