@@ -1,0 +1,28 @@
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.deps.json
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.runtimeconfig.json
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.pdb
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.csproj.AssemblyReference.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.AssemblyInfoInputs.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.AssemblyInfo.cs
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.csproj.CoreCompileInputs.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\refint\EquipmentDomain.dll
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.pdb
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.genruntimeconfig.cache
+C:\Users\luize\OneDrive\Área de Trabalho\api_equipment\EquipmentDomain\obj\Debug\net6.0\ref\EquipmentDomain.dll
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.deps.json
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.runtimeconfig.json
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.dll
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\bin\Debug\net6.0\EquipmentDomain.pdb
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.csproj.AssemblyReference.cache
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.AssemblyInfoInputs.cache
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.AssemblyInfo.cs
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.csproj.CoreCompileInputs.cache
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.dll
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\refint\EquipmentDomain.dll
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.pdb
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\EquipmentDomain.genruntimeconfig.cache
+C:\Users\luize\source\repos\luizranngel\teste-backend-estagio-v3\EquipmentDomain\obj\Debug\net6.0\ref\EquipmentDomain.dll
