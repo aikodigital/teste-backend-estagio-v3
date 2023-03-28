@@ -32,6 +32,10 @@ builder.Services.AddScoped<IEquipmentPositionHistoryRepository, EquipmentPositio
 
 builder.Services.AddScoped<IEquipmentStateHistoryService, EquipmentStateHistoryService>();
 builder.Services.AddScoped<IEquipmentStateHistoryRepository, EquipmentStateHistoryRepository>();
+
+builder.Services.AddScoped<IEquipmentQueriesService, EquipmentQueriesService>();
+builder.Services.AddScoped<IEquipmentQueriesRespository, EquipmentQueriesRepository>();
+
 var app = builder.Build();
 
 

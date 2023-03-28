@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "LhvTiOs53FMVMQ6rcjq0RpFEYKjqu6QYR6pfwR2O/loSBTT8V5KeoJFI5j14qrrDAeV0uziAkeBwvwDBHaHCkw==",
+  "dgSpecHash": "cd9TLIAlKH8nRmsISLRF4DgMQixW6QTFKNnKxzqMOZbtMLgZbIaYXFWxEBWC5JinwJ6om/SDtxKYbyPN46pWNg==",
   "success": true,
   "projectFilePath": "C:\\Users\\luize\\source\\repos\\luizranngel\\teste-backend-estagio-v3\\EquipmentInfra\\EquipmentInfra.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\luize\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\luize\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\luize\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\luize\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",

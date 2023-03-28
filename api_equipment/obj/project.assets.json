@@ -1800,6 +1800,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Dapper": "2.0.123",
           "EquipmentDomain": "1.0.0",
           "Microsoft.NETCore.App": "2.2.8",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.3",
@@ -5018,7 +5019,7 @@
       "projectName": "EquipmentApi",
       "projectPath": "C:\\Users\\luize\\source\\repos\\luizranngel\\teste-backend-estagio-v3\\api_equipment\\EquipmentApi.csproj",
       "packagesPath": "C:\\Users\\luize\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\luize\\Source\\Repos\\luizranngel\\teste-backend-estagio-v3\\api_equipment\\obj\\",
+      "outputPath": "C:\\Users\\luize\\source\\repos\\luizranngel\\teste-backend-estagio-v3\\api_equipment\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

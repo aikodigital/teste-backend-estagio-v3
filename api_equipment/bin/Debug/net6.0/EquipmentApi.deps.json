@@ -738,6 +738,7 @@
       },
       "EquipmentInfra/1.0.0": {
         "dependencies": {
+          "Dapper": "2.0.123",
           "EquipmentDomain": "1.0.0",
           "Microsoft.NETCore.App": "2.2.8",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.3",

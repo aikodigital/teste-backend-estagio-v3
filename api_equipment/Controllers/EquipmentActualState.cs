@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using Dapper;
 using Swashbuckle.AspNetCore.Annotations;
+using EquipmentDomain.Interfaces.Services;
 
 namespace EquipmentApi.Controllers
 {
@@ -10,27 +11,19 @@ namespace EquipmentApi.Controllers
     [ApiController]
     public class EquipmentActualState : ControllerBase
     {
-        private readonly string _connectionstring;
+        private readonly IEquipmentQueriesService _equipmentQueriesService;
 
-        public EquipmentActualState(IConfiguration configuracao)
+        public EquipmentActualState(IEquipmentQueriesService equipmentQueriesService)
         {
-            _connectionstring = configuracao.GetConnectionString("DefaultConnection");
+            _equipmentQueriesService = equipmentQueriesService;
         }
 
         [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK, "", typeof(IEnumerable<EquipmentActualStateResponse>))]
         public IEnumerable<EquipmentActualStateResponse> GetEquipment()
         {
-            using (NpgsqlConnection connectionString = new(_connectionstring))
-            {
-                string sql = @"SELECT DISTINCT ON(E.name) E.name AS Name, ES.name AS State
-                                FROM operation.equipment AS E 
-                                JOIN operation.equipment_state_history AS ESH ON E.id = ESH.equipment_id
-                                JOIN operation.equipment_state AS ES ON ESH.equipment_state_id = ES.id 
-                                ORDER BY E.name, ESH.date desc;";
-
-                return connectionString.Query<EquipmentActualStateResponse>(sql);
-            }
+            return _equipmentQueriesService.GetActualState();
         }
+
     }
 }
