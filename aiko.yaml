@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "API de Operação Florestal"
+paths:
+  /estados:
+    post:
+      summary: "Criar um estado de equipamento"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Estado de equipamento a ser criado"
+          required: true
+          schema:
+            $ref: "#/definitions/EstadoEquipamento"
+      responses:
+        "201":
+          description: "Estado de equipamento criado com sucesso"
+  /estados/{id}:
+    delete:
+      summary: "Excluir um estado de equipamento pelo ID"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID do estado de equipamento a ser excluído"
+          required: true
+          type: "integer"
+      responses:
+        "204":
+          description: "Estado de equipamento excluído com sucesso"
+    put:
+      summary: "Atualizar um estado de equipamento pelo ID"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID do estado de equipamento a ser atualizado"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Novos dados do estado de equipamento"
+          required: true
+          schema:
+            $ref: "#/definitions/EstadoEquipamento"
+      responses:
+        "200":
+          description: "Estado de equipamento atualizado com sucesso"
+        "404":
+          description: "Estado de equipamento não encontrado"
+    get:
+      summary: "Obter um estado de equipamento pelo ID"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID do estado de equipamento a ser obtido"
+          required: true
+          type: "integer"
+      responses:
+        "200":
+          description: "Estado de equipamento obtido com sucesso"
+          schema:
+           
