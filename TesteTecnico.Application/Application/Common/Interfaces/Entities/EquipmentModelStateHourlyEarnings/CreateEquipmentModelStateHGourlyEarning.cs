@@ -1,0 +1,3 @@
+namespace TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModelStateHourlyEarnings;
+
+public record CreateEquipmentModelStateHourlyEarning(decimal Value, Guid EquipmentModelId, Guid EquipmentStateId);

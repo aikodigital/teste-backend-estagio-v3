@@ -1,0 +1,9 @@
+namespace TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModelStateHourlyEarnings;
+
+public interface IEquipmentModelStateHourlyEarningService
+{
+    Task<EquipmentModelStateHourlyEarningResponse> GetEquipmentModelStateHourlyEarningByIdAsync(Guid id);
+    Task<EquipmentModelStateHourlyEarningResponse> CreateEquipmentModelStateHourlyEarningAsync(CreateEquipmentModelStateHourlyEarning equipmentModelState);
+    Task<EquipmentModelStateHourlyEarningResponse> EditEquipmentModelStateHourlyEarningAsync(EditEquipmentModelStateHourlyEarning equipmentModelState, Guid routeId);
+    Task DeleteEquipmentModelStateHourlyEarningAsync(Guid id);
+}

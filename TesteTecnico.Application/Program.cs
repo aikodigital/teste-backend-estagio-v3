@@ -2,6 +2,7 @@ global using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipamento;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModelStateHourlyEarnings;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentPositionHistories;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipments;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStateHistories;
@@ -31,6 +32,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IEquipmentPositionHistoryRepository, EquipmentPositionHistoryRepository>();
     builder.Services.AddScoped<IEquipmentStateHistoryService, EquipmentStateHistoryService>();
     builder.Services.AddScoped<IEquipmentStateHistoryRepository, EquipmentStateHistoryRepository>();
+    builder.Services.AddScoped<IEquipmentModelStateHourlyEarningService, EquipmentModelStateHourlyEarningService>();
+    builder.Services.AddScoped<IEquipmentModelStateHourlyEarningRepository, EquipmentModelStateHourlyEarningRepository>();
 }
 
 // Add services to the container.

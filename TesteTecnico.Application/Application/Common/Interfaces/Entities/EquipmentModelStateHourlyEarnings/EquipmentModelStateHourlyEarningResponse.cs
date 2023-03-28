@@ -1,0 +1,6 @@
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStates;
+
+namespace TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModelStateHourlyEarnings;
+
+public record EquipmentModelStateHourlyEarningResponse(Guid Id, decimal Value, EquipmentModelResponse EquipmentModel, EquipmentStateResponse EquipmentState);

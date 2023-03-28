@@ -8,7 +8,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Equipment> Equipments { get; set; } = null!;
     public DbSet<EquipmentModel> EquipmentModels { get; set; } = null!;
-    public DbSet<EquipmentModelStateHourlyEarnings> EquipmentModelStateHourlyEarnings { get; set; } = null!;
+    public DbSet<EquipmentModelStateHourlyEarning> EquipmentModelStateHourlyEarnings { get; set; } = null!;
     public DbSet<EquipmentPositionHistory> EquipmentPositionHistory { get; set; } = null!;
     public DbSet<EquipmentState> EquipmentStates { get; set; } = null!;
     public DbSet<EquipmentStateHistory> EquipmentStateHistories { get; set; } = null!;
