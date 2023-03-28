@@ -3,6 +3,7 @@ using AutoMapper;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipamento;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentModels;
 using TesteTecnico.Application.Application.Common.Interfaces.Entities.Equipments;
+using TesteTecnico.Application.Application.Common.Interfaces.Entities.EquipmentStates;
 using TesteTecnico.Application.Application.Middlewares;
 using TesteTecnico.Application.Application.Services.Entities;
 using TesteTecnico.Application.Infrastructure.Persistence;
@@ -22,6 +23,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
     builder.Services.AddScoped<IEquipmentModelService, EquipmentModelService>();
     builder.Services.AddScoped<IEquipmentModelRepository, EquipmentModelRepository>();
+    builder.Services.AddScoped<IEquipmentStateService, EquipmentStateService>();
+    builder.Services.AddScoped<IEquipmentStateRepository, EquipmentStateRepository>();
 }
 
 // Add services to the container.
