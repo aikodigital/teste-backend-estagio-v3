@@ -5,12 +5,10 @@ using PostgreAPI.Models;
 namespace PostgreAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class EquipmentModelStateHourEarnController : ControllerBase
     {
         [HttpPost]
-        [Route("InsertEquipmentModelStateHourEarn")]
-
+        [Route("/HourlyEarnings/Insert")]
         public bool InsertEquipmentModelStateHourEarn(float Value, Guid ModelId, Guid StateId)
         {
             try
@@ -18,10 +16,10 @@ namespace PostgreAPI.Controllers
                 AikoAPIContext context = new AikoAPIContext();
 
                 if (context.EquipmentModels.Where(x => x.Id == ModelId).FirstOrDefault() == null)
-                  throw new Exception("EquipmentModelId é inválido!");
+                    throw new Exception("EquipmentModelId é inválido!");
 
                 if (context.EquipmentStates.Where(x => x.Id == StateId).FirstOrDefault() == null)
-                    new Exception("EquipmentStateId é inválido!");
+                    throw new Exception("EquipmentStateId é inválido!");
 
 
                 string sql = @$" INSERT INTO operation.equipment_model_state_hourly_earnings(equipment_model_id, equipment_state_id, value)
@@ -38,8 +36,8 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetEquipmentModelStateHourEarn")]
-        public List<EquipmentModelStateHourEarn> GetEquipmentModelStateHouEarning()
+        [Route("/HourlyEarnings/Get")]
+        public List<EquipmentModelStateHourEarn> GetEquipmentModelStateHourEarn()
         {
             try
             {
@@ -53,10 +51,34 @@ namespace PostgreAPI.Controllers
             }
         }
 
-        // TODO: Implementar update
+        [HttpPut]
+        [Route("/HourlyEarnings/Update")]
+        public bool UpdateEquipmentModelStateHourEarn(Guid ModelId, Guid StateId, float Value)
+        {
+            try
+            {
+                AikoAPIContext context = new AikoAPIContext();
+
+                if (context.EquipmentModels.Where(x => x.Id == ModelId).FirstOrDefault() == null)
+                    throw new Exception("EquipmentModelId é inválido!");
+
+                if (context.EquipmentStates.Where(x => x.Id == StateId).FirstOrDefault() == null)
+                    throw new Exception("EquipmentStateId é inválido!");
+
+                string sql = @$"UPDATE operation.equipment_model_state_hourly_earnings SET value = {Value}
+	                            WHERE equipment_model_id = '{ModelId.ToString()}' AND equipment_state_id = '{StateId.ToString()}';";
+
+                int rowsAffected = context.Database.ExecuteSqlRaw(sql);
+                return (rowsAffected > 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [HttpDelete]
-        [Route("DeleteEquipmentModelStateHourEarn")]
+        [Route("/HourlyEarnings/Delete")]
         public bool DeleteEquipmentModelStateHourEarn(Guid EquipmentModelId, Guid EquipmentStatelId)
         {
             try
