@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    hikari:
+      connection-test-query: SELECT 1
+      minimum-idle: 1
+      maximum-pool-size: 10
+      pool-name: plataforma-database-pool
+      auto-commit: false
+      connection-timeout: 30000
+    url: "jdbc:postgresql://localhost:5432/data"
+    username: postgres
+    password: 1234
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
