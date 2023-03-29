@@ -16,17 +16,20 @@ import java.util.stream.Collectors;
 public class EquipmentModelService {
     @Autowired
     EquipmentModelRepository equipmentModelRepository;
-    @Autowired
-    EquipmentRepository equipmentRepository;
 
     public EquipmentModelRequest toDto(EquipmentModel equipmentModel) {
         return new EquipmentModelRequest(String.valueOf(UUID.randomUUID()), equipmentModel.getName());
     }
 
     public void create(EquipmentModelRequest equipmentModelRequest) {
-        EquipmentModel equipmentModel = EquipmentModel.builder().id(UUID.randomUUID()).name(equipmentModelRequest.getName()).build();
+        try {
+            EquipmentModel equipmentModel = EquipmentModel.builder().id(UUID.randomUUID()).name(equipmentModelRequest.getName()).build();
+            equipmentModelRepository.save(equipmentModel);
+        }catch (Exception e){
+            throw e;
+        }
 
-        equipmentModelRepository.save(equipmentModel);
+
     }
 
     public List<EquipmentModelRequest> findAll() {
@@ -60,7 +63,7 @@ public class EquipmentModelService {
 
     public Optional<EquipmentModel> findEquipmentModelById(UUID uuid) {
         Optional<EquipmentModel> equipmentModel = equipmentModelRepository.findById(uuid);
-        if(equipmentModel.isPresent()) return equipmentModel;
+        if (equipmentModel.isPresent()) return equipmentModel;
         throw new NullPointerException();
     }
 

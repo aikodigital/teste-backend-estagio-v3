@@ -1,6 +1,5 @@
 package com.desafio.aiko.services;
 
-import com.desafio.aiko.models.entities.EquipmentModel;
 import com.desafio.aiko.models.entities.EquipmentModelStateHourlyEarnings;
 import com.desafio.aiko.models.id.EquipmentModelStateHourlyEarningsId;
 import com.desafio.aiko.models.request.EquipmentModelStateHourlyEarningsRequest;
@@ -18,8 +17,6 @@ public class EquipmentModelStateHourlyEarningsService {
     @Autowired
     EquipmentModelStateHourlyEarningsRepository equipmentModelStateHourlyEarningsRepository;
 
-    EquipmentModelStateHourlyEarningsRequest equipmentModelStateHourlyEarningsRequest;
-
 
     public EquipmentModelStateHourlyEarningsRequest toDto(EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings) {
         EquipmentModelStateHourlyEarningsId equipmentModelStateHourlyEarningsId = EquipmentModelStateHourlyEarningsId.builder()
@@ -31,21 +28,29 @@ public class EquipmentModelStateHourlyEarningsService {
 
 
     public void create(EquipmentModelStateHourlyEarningsRequest equipmentModelStateHourlyEarningsRequest) {
+        try {
 
-        EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = EquipmentModelStateHourlyEarnings.builder()
-                .value(equipmentModelStateHourlyEarningsRequest.getValue())
-                .id(EquipmentModelStateHourlyEarningsId.builder()
-                        .equipmentModelId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentModelId()))
-                        .equipmentStateId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentStateId()))
-                        .build())
-                .build();
 
-        equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
+            EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = EquipmentModelStateHourlyEarnings.builder()
+                    .value(equipmentModelStateHourlyEarningsRequest.getValue())
+                    .id(EquipmentModelStateHourlyEarningsId.builder()
+                            .equipmentModelId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentModelId()))
+                            .equipmentStateId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentStateId()))
+                            .build())
+                    .build();
+
+
+            equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public List<EquipmentModelStateHourlyEarningsRequest> equipmentModelStateHourlyEarningsList() {
         List<EquipmentModelStateHourlyEarnings> equipmentEarningsList = equipmentModelStateHourlyEarningsRepository.findAllEarnings();
         List<EquipmentModelStateHourlyEarningsRequest> equipmentModelStateHourlyEarningsRequestsList = equipmentEarningsList.stream().map(this::toDto).toList();
+        if (equipmentModelStateHourlyEarningsRequestsList.isEmpty()) throw new NullPointerException();
+
         return equipmentModelStateHourlyEarningsRequestsList;
 
     }
@@ -66,17 +71,20 @@ public class EquipmentModelStateHourlyEarningsService {
         }
     }
 
-    public void update(EquipmentModelStateHourlyEarningsRequest equipmentModelStateHourlyEarningsRequest){
-        EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = EquipmentModelStateHourlyEarnings.builder()
-                .id(EquipmentModelStateHourlyEarningsId.builder()
-                        .equipmentModelId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentModelId()))
-                        .equipmentStateId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentStateId()))
-                        .build())
-                .value(equipmentModelStateHourlyEarningsRequest.getValue())
-                .build();
+    public void update(EquipmentModelStateHourlyEarningsRequest equipmentModelStateHourlyEarningsRequest) {
+        try {
+            EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = EquipmentModelStateHourlyEarnings.builder()
+                    .id(EquipmentModelStateHourlyEarningsId.builder()
+                            .equipmentModelId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentModelId()))
+                            .equipmentStateId(UUID.fromString(equipmentModelStateHourlyEarningsRequest.getEquipmentStateId()))
+                            .build())
+                    .value(equipmentModelStateHourlyEarningsRequest.getValue())
+                    .build();
 
-
-        equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
+            equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
 

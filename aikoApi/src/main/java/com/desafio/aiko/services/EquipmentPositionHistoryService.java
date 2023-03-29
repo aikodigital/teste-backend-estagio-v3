@@ -7,16 +7,13 @@ import com.desafio.aiko.repositories.EquipmentModelRepository;
 import com.desafio.aiko.repositories.EquipmentPositionHistoryRepository;
 import com.desafio.aiko.repositories.EquipmentRepository;
 import com.desafio.aiko.utils.DateUtils;
-import jakarta.persistence.OrderBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,13 +21,7 @@ import java.util.stream.Collectors;
 public class EquipmentPositionHistoryService {
     @Autowired
     EquipmentPositionHistoryRepository equipmentPositionHistoryRepository;
-    @Autowired
-    EquipmentRepository equipmentRepository;
-    @Autowired
-    EquipmentModelRepository equipmentModelRepository;
-
     public EquipmentPositionHistoryRequest toDto(EquipmentPositionHistory equipmentPositionHistory) {
-
 
         EquipmentPositionHistoryRequest equipmentPositionHistoryRequest = EquipmentPositionHistoryRequest.builder()
                 .equipmentId(equipmentPositionHistory.getId().getEquipmentId())
@@ -63,11 +54,14 @@ public class EquipmentPositionHistoryService {
     }
 
     public List<EquipmentPositionHistoryRequest> findLastPositions() {
-        List<EquipmentPositionHistory> equipmentPositionHistory = equipmentPositionHistoryRepository.findAll(Sort.by("date").descending());
-        List<EquipmentPositionHistoryRequest> equipmentPositionHistoryRequestList = equipmentPositionHistory.stream().map(this::toDto).collect(Collectors.toList());
+        try {
+            List<EquipmentPositionHistory> equipmentPositionHistory = equipmentPositionHistoryRepository.findAll(Sort.by("date").descending());
+            List<EquipmentPositionHistoryRequest> equipmentPositionHistoryRequestList = equipmentPositionHistory.stream().map(this::toDto).collect(Collectors.toList());
 
-
-        return equipmentPositionHistoryRequestList;
+            return equipmentPositionHistoryRequestList;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void update(EquipmentPositionHistoryRequest equipmentPositionHistoryRequest) {
@@ -91,8 +85,9 @@ public class EquipmentPositionHistoryService {
         EquipmentPositionHistoryId equipmentPositionHistoryId = EquipmentPositionHistoryId.builder()
                 .equipmentId(uuid)
                 .build();
+        if (equipmentPositionHistoryId.getEquipmentId() == null) throw new NullPointerException();
 
-        equipmentPositionHistoryRepository.deletePositions(equipmentPositionHistoryId.getEquipmentId());
+
     }
 
 }

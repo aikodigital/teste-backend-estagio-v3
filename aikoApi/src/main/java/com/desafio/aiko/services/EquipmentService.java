@@ -4,9 +4,7 @@ import com.desafio.aiko.models.entities.Equipment;
 import com.desafio.aiko.models.entities.EquipmentModel;
 import com.desafio.aiko.models.request.EquipmentRequest;
 import com.desafio.aiko.repositories.EquipmentModelRepository;
-import com.desafio.aiko.repositories.EquipmentPositionHistoryRepository;
 import com.desafio.aiko.repositories.EquipmentRepository;
-import com.desafio.aiko.repositories.EquipmentStateHistoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,15 +20,10 @@ import java.util.stream.Collectors;
 @Service
 public class EquipmentService {
     @Autowired
-    private EquipmentPositionHistoryRepository equipmentPositionHistoryRepository;
-    @Autowired
-    private EquipmentPositionHistoryService equipmentPositionHistoryService;
-    @Autowired
     private EquipmentRepository equipmentRepository;
     @Autowired
     private EquipmentModelRepository equipmentModelRepository;
-    @Autowired
-    private EquipmentStateHistoryRepository equipmentStateHistoryRepository;
+
 
     public EquipmentRequest toDto(Equipment equipment) {
         return new EquipmentRequest(UUID.randomUUID().toString(), equipment.getName(), equipment.getEquipmentModel().getId());
@@ -61,17 +54,21 @@ public class EquipmentService {
     }
 
     public void updateEquipment(EquipmentRequest equipmentRequest) {
-        Optional<EquipmentModel> equipmentModelId = equipmentModelRepository.findById(equipmentRequest.getEquipmentModel());
+        try {
+            Optional<EquipmentModel> equipmentModelId = equipmentModelRepository.findById(equipmentRequest.getEquipmentModel());
 
-        Equipment equipment = Equipment.builder()
-                .id(UUID.fromString(equipmentRequest.getId()))
-                .name(equipmentRequest.getName())
-                .equipmentModel(EquipmentModel.builder()
-                        .id(equipmentModelId.get().getId())
-                        .name(equipmentRequest.getName())
-                        .build())
-                .build();
-        equipmentRepository.save(equipment);
+            Equipment equipment = Equipment.builder()
+                    .id(UUID.fromString(equipmentRequest.getId()))
+                    .name(equipmentRequest.getName())
+                    .equipmentModel(EquipmentModel.builder()
+                            .id(equipmentModelId.get().getId())
+                            .name(equipmentRequest.getName())
+                            .build())
+                    .build();
+            equipmentRepository.save(equipment);
+        }catch (Exception e){
+            throw  e;
+        }
     }
 
 

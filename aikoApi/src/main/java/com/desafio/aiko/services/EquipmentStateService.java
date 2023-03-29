@@ -1,8 +1,6 @@
 package com.desafio.aiko.services;
 
-import com.desafio.aiko.models.entities.Equipment;
 import com.desafio.aiko.models.entities.EquipmentState;
-import com.desafio.aiko.models.request.EquipmentRequest;
 import com.desafio.aiko.models.request.EquipmentStateRequest;
 import com.desafio.aiko.repositories.EquipmentStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +22,17 @@ public class EquipmentStateService {
 
 
     public void create(EquipmentStateRequest equipmentStateRequest) {
-        EquipmentState equipmentState = EquipmentState.builder()
-                .id(UUID.randomUUID())
-                .name(equipmentStateRequest.getName())
-                .color(equipmentStateRequest.getColor())
-                .build();
+        try {
+            EquipmentState equipmentState = EquipmentState.builder()
+                    .id(UUID.randomUUID())
+                    .name(equipmentStateRequest.getName())
+                    .color(equipmentStateRequest.getColor())
+                    .build();
 
-        equipmentStateRepository.save(equipmentState);
+            equipmentStateRepository.save(equipmentState);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public List<EquipmentStateRequest> findAllStates() {
@@ -44,14 +46,20 @@ public class EquipmentStateService {
     public void deleteById(UUID uuid) {
         Optional<EquipmentState> equipmentState = equipmentStateRepository.findById(uuid);
         if (equipmentState.isPresent()) equipmentStateRepository.deleteById(uuid);
+        throw new NullPointerException();
     }
-    public void update(EquipmentStateRequest equipmentStateRequest){
-        EquipmentState equipmentState = EquipmentState.builder()
-                .id(UUID.fromString(equipmentStateRequest.getId()))
-                .name(equipmentStateRequest.getName())
-                .color(equipmentStateRequest.getColor())
-                .build();
 
-        equipmentStateRepository.save(equipmentState);
+    public void update(EquipmentStateRequest equipmentStateRequest) {
+        try {
+            EquipmentState equipmentState = EquipmentState.builder()
+                    .id(UUID.fromString(equipmentStateRequest.getId()))
+                    .name(equipmentStateRequest.getName())
+                    .color(equipmentStateRequest.getColor())
+                    .build();
+
+            equipmentStateRepository.save(equipmentState);
+        }catch (Exception e){
+            throw e;
+        }
     }
 }
