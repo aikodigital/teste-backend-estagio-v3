@@ -1,3 +1,6 @@
+### Edit:
+Mesmo após o prazo de entrega, continuarei desenvolvendo o projeto para aprender. Ainda não tenho conhecimento suficiente.
+
 # Teste Estágio Backend V3
 
 ![Aiko](img/aiko.png)
