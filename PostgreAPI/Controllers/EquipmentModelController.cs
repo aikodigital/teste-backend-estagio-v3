@@ -5,11 +5,10 @@ using PostgreAPI.Models;
 namespace PostgreAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class EquipmentModelController : ControllerBase
     {
         [HttpPost]
-        [Route("InsertEquipmentModel")]
+        [Route("/equipmentModel/Insert")]
         public Guid InsertEquipmentModel(string name)
         {
             try
@@ -39,7 +38,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetEquipmentModel")]
+        [Route("/equipmentModel/Get")]
         public List<EquipmentModel> GetEquipmentModel()
         {
             try
@@ -56,7 +55,7 @@ namespace PostgreAPI.Controllers
 
 
         [HttpPut]
-        [Route("UpdateEquipmentModel")]
+        [Route("/equipmentModel/Update")]
         public bool UpdateEquipmentModel(Guid id, string name)
         {
             try
@@ -86,7 +85,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteEquipmentModel")]
+        [Route("/equipmentModel/Delete")]
         public bool DeleteEquipmentModel(Guid id)
         {
             try

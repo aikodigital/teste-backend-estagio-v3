@@ -5,12 +5,11 @@ using PostgreAPI.Models;
 namespace PostgreAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class EquipmentStateHistoryController : ControllerBase
     {
 
         [HttpPost]
-        [Route("InsertEquipmentStateHistory")]
+        [Route("/EquipmentStateHistory/Insert")]
         public bool InsertEquipmentStateHistory(Guid EquipmentStateId, DateTime Date,Guid EquipmentId)
         {
             try
@@ -38,7 +37,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetEquipmentStateHistory")]
+        [Route("/EquipmentStateHistory/Get")]
         public List<EquipmentStateHistory> GetStateHistory()
         {
             try
@@ -52,11 +51,9 @@ namespace PostgreAPI.Controllers
                 throw ex;
             }
         }
-
-        // TODO: Implentar update
-
+        
         [HttpDelete]
-        [Route("DeleteEquipmentStateHistory")]
+        [Route("/EquipmentStateHistory/Delete")]
         public bool DeleteEquipmentStateHistory(Guid EquipmentId,DateTime date)
         {
             try
@@ -81,7 +78,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetCurrentEquipmentState")]
+        [Route("/EquipmentStateHistory/GetCurrent")]
         public List<EquipmentStateHistory> GetCurrentEquipmentState()
         {
             try

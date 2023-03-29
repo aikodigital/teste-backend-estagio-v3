@@ -5,11 +5,10 @@ using PostgreAPI.Models;
 namespace PostgreAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class EquipmentStateController : ControllerBase
     {
         [HttpPost]
-        [Route("InsertEquipmentState")]
+        [Route("/EquipmentState/Insert")]
         public Guid insertEquipmentState(string name, string color)
         {
             try
@@ -18,7 +17,6 @@ namespace PostgreAPI.Controllers
 
                 if (name.Trim().Count() <= 0)
                     throw new Exception("Name é inválido!");
-
 
                 Guid id = Guid.NewGuid();
 
@@ -43,7 +41,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetEquipmentState")]
+        [Route("/EquipmentState/Get")]
         public List<EquipmentState> GetEquipmentState()
         {
             try
@@ -59,7 +57,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateEquipmentState")]
+        [Route("/EquipmentState/Update")]
         public bool UpdateEquipmentState(Guid id, string name, string color)
         {
             try
@@ -92,7 +90,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteEquipmentState")]
+        [Route("/EquipmentState/Delete")]
         public bool DeleteEquipmentState(Guid id)
         {
             try

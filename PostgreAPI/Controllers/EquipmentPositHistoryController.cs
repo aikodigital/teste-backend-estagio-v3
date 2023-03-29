@@ -5,11 +5,10 @@ using PostgreAPI.Models;
 namespace PostgreAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class EquipmentPositHistoryController : ControllerBase
     {
         [HttpPost]
-        [Route("InsertEquipmentPositHistory")]
+        [Route("/EquipmentPositHistory/Insert")]
         public bool InsertEquipmentPositHistory(Guid EquipmentId, DateTime dateTime, float lat, float lon)
         {
             try
@@ -45,8 +44,8 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetEquipmentPositHistory")]
-        public List<EquipmentPositHistory> GetPositionHistory()
+        [Route("/EquipmentPositHistory/Get")]
+        public List<EquipmentPositHistory> GetEquipmentPositionHistory()
         {
             try
             {
@@ -61,7 +60,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteEquipmentPositHistory")]
+        [Route("/EquipmentPositHistory/Delete")]
         public bool DeleteEquipmentPositHistory(Guid EquipmentId,DateTime date)
         {
             try
@@ -85,10 +84,8 @@ namespace PostgreAPI.Controllers
 
         }
 
-        // TODO: Implentar update
-
         [HttpGet]
-        [Route("GetCurrentEquipmentPosition")]
+        [Route("/EquipmentPositHistory/GetCurrent")]
         public List<EquipmentPositHistory> GetCurrentEquipmentEquipment()
         {
             try
@@ -119,7 +116,6 @@ namespace PostgreAPI.Controllers
             {
                 throw ex;
             }
-
         }
     }
 }
