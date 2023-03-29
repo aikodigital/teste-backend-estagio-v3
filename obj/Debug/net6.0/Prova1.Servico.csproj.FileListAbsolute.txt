@@ -1,0 +1,15 @@
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\bin\Debug\net6.0\Prova1.Servico.deps.json
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\bin\Debug\net6.0\Prova1.Servico.dll
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\bin\Debug\net6.0\Prova1.Servico.pdb
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\bin\Debug\net6.0\Prova.Repositorio.dll
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\bin\Debug\net6.0\Prova.Repositorio.pdb
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.csproj.AssemblyReference.cache
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.AssemblyInfoInputs.cache
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.AssemblyInfo.cs
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.csproj.CoreCompileInputs.cache
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.csproj.CopyComplete
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.dll
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\refint\Prova1.Servico.dll
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\Prova1.Servico.pdb
+C:\Users\mathe\Desktop\Prova\Prova1\Prova1\Prova1.Servico\obj\Debug\net6.0\ref\Prova1.Servico.dll
