@@ -8,7 +8,7 @@ namespace PostgreAPI.Controllers
     public class EquipmentModelController : ControllerBase
     {
         [HttpPost]
-        [Route("/equipmentModel/Insert")]
+        [Route("/EquipmentModel/Insert")]
         public Guid InsertEquipmentModel(string name)
         {
             try
@@ -38,7 +38,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpGet]
-        [Route("/equipmentModel/Get")]
+        [Route("/EquipmentModel/Get")]
         public List<EquipmentModel> GetEquipmentModel()
         {
             try
@@ -55,7 +55,7 @@ namespace PostgreAPI.Controllers
 
 
         [HttpPut]
-        [Route("/equipmentModel/Update")]
+        [Route("/EquipmentModel/Update")]
         public bool UpdateEquipmentModel(Guid id, string name)
         {
             try
@@ -85,7 +85,7 @@ namespace PostgreAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("/equipmentModel/Delete")]
+        [Route("/EquipmentModel/Delete")]
         public bool DeleteEquipmentModel(Guid id)
         {
             try
