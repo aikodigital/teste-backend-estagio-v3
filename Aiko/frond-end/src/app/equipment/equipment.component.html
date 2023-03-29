@@ -1,0 +1,69 @@
+<div class="container mt-4" >
+  <div class="card">
+          <h1>Registro de Equipamentos</h1>
+  <form>
+      <div class="form-group">
+        <label>Name do Equipamento</label>
+        <input type="text" [(ngModel)]="equipmentName" [ngModelOptions]="{standalone: true}" class="form-control" id="equipmentName" placeholder="Digite o Nome do Equipamento">
+      </div>
+      <div class="form-group">
+          <label>Estado do Equipamento</label>
+          <select name="Estado do Equipamento"[(ngModel)]="equipmentState" [ngModelOptions]="{standalone: true}" class="form-control" id="equipmentState" >
+          <option value="OPERANDO">OPERANDO</option>
+          <option value="PARADO">PARADO</option>
+          <option value="MANUTENÇÃO">MANUTENÇÃO</option>
+          </select>
+
+        </div>
+        <div class="form-group">
+          <label>Modelo do Equipamento</label>
+          <input type="text" [(ngModel)]="equipmentModel" [ngModelOptions]="{standalone: true}"  class="form-control" id="equipmentModel" placeholder="Digite o Modelo">
+
+        </div>
+
+        <div class="form-group">
+          <label>Ganhos por Hora/Estado</label>
+          <input type="text" [(ngModel)]="earningsPerHour" [ngModelOptions]="{standalone: true}" class="form-control" id="earnigPerHour" placeholder="Digite os Ganhos por Hora/Estado">
+
+        </div>
+      <button type="submit" class="btn btn-primary mt-4" (click)="save()" >Salvar</button>
+    </form>
+  </div>
+  <div>
+      <div class="container mt-4" >
+          <h1>Tabela de Equipamento</h1>
+      <table class="table">
+          <thead>
+           <h1 *ngIf="!isResultLoaded"></h1>
+
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome do Equipamento</th>
+              <th scope="col">Estado do Equipamento</th>
+              <th scope="col">Modelo do Equipamento</th>
+              <th scope="col">Ganhos por Hora/Estado</th>
+              <th scope="col">Histórico de Estado</th>
+              <th scope="col">Histórico do Posição</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let EquipmentItem of EquipmentArray">
+              <th scope="row">{{EquipmentItem.equipmentId  }}</th>
+              <td>{{EquipmentItem.equipmentName }}</td>
+              <td>{{EquipmentItem.equipmentState }}</td>
+              <td>{{EquipmentItem.equipmentModel }}</td>
+              <td>{{EquipmentItem.earningsPerHour }}</td>
+
+              <td><button routerLink="state" type="button" class="btn btn-success" >Visualizar</button></td>
+              <td><button routerLink="position" type="button" class="btn btn-success" >Visualizar</button></td>
+              <td>
+                <button type="button" class="btn btn-success" (click)="setUpdate(EquipmentItem)">Editar</button>
+
+                <button type="button" class="btn btn-danger" (click)="setDelete(EquipmentItem)">Deletar</button>
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
