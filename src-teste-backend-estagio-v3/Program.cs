@@ -6,6 +6,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace src_teste_backend_estagio_v3
 {
@@ -39,9 +42,9 @@ namespace src_teste_backend_estagio_v3
             });
 
             //Update equipment
-            app.MapPut("/equipment/{id:Guid}", async ([FromBody] Equipment equipment, ForestOpContext context) =>
+            app.MapPut("/equipment/{id:Guid}", async ([FromRoute] Guid id, [FromBody] Equipment equipment, ForestOpContext context) =>
             {
-                var contextEquipment = await context.Equipment.FindAsync(equipment.Id);
+                var contextEquipment = await context.Equipment.FindAsync(id);
 
                 if (contextEquipment is null) return Results.NotFound();
 
@@ -53,16 +56,16 @@ namespace src_teste_backend_estagio_v3
             });
 
             //Delete equipment
-            app.MapDelete("/equipment/{id:Guid}", async ([FromBody] Equipment equipment, ForestOpContext context) =>
+            app.MapDelete("/equipment/{id:Guid}", async ([FromRoute] Guid id, ForestOpContext context) =>
             {
-                var contextEquipment = context.Equipment.Find(equipment.Id);
+                var contextEquipment = context.Equipment.Find(id);
                 if (contextEquipment is not null) 
                 {
                     context.Equipment.Remove(contextEquipment);
                     await context.SaveChangesAsync();
-                    return Results.Ok(equipment);
+                    return Results.NoContent();
                 }
-                return Results.NoContent();
+                return Results.NotFound();
             });
 
 
@@ -71,7 +74,7 @@ namespace src_teste_backend_estagio_v3
              */
 
             //Create equipment_model
-            app.MapPost("/equipment_model", async ([FromServices] EquipmentModel equipmentModel, ForestOpContext context) =>
+            app.MapPost("/equipment_model", async ([FromBody] EquipmentModel equipmentModel, ForestOpContext context) =>
             {
                 context.EquipmentModels.Add(equipmentModel);
                 await context.SaveChangesAsync();
@@ -86,9 +89,9 @@ namespace src_teste_backend_estagio_v3
             });
 
             //Update equipment_model
-            app.MapPut("/equipment_model/{id:Guid}", async ([FromBody] EquipmentModel equipmentModel, ForestOpContext context) =>
+            app.MapPut("/equipment_model/{id:Guid}", async ([FromRoute] Guid id, [FromBody] EquipmentModel equipmentModel, ForestOpContext context) =>
             {
-                var contextEquipmentModel = await context.EquipmentModels.FindAsync(equipmentModel.Id);
+                var contextEquipmentModel = await context.EquipmentModels.FindAsync(id);
 
                 if (contextEquipmentModel is null) return Results.NotFound();
 
@@ -100,14 +103,14 @@ namespace src_teste_backend_estagio_v3
             });
 
             //Delete equipment_model
-            app.MapDelete("/equipment_model/{id:Guid}", async ([FromBody] EquipmentModel equipmentModel, ForestOpContext context) =>
+            app.MapDelete("/equipment_model/{id:Guid}", async ([FromRoute] Guid id, ForestOpContext context) =>
             {
-                var contextEquipmentModel = context.EquipmentModels.Find(equipmentModel.Id);
+                var contextEquipmentModel = context.EquipmentModels.Find(id);
                 if (contextEquipmentModel is not null)
                 {
                     context.EquipmentModels.Remove(contextEquipmentModel);
                     await context.SaveChangesAsync();
-                    Results.Ok(equipmentModel);
+                    return Results.NoContent();
                 }
                 return Results.NotFound();
             });
@@ -120,10 +123,11 @@ namespace src_teste_backend_estagio_v3
             //Create Equipment_model_state_hourly_earning
             app.MapPost("/equipment_state_earning", async ([FromBody] EquipmentModelStateHourlyEarning equipmentStateEarning, ForestOpContext context) =>
             {
-                context.EquipmentModelStateHourlyEarnings.Add(equipmentStateEarning);
-                await context.SaveChangesAsync();
+                string sql = @$" INSERT INTO operation.equipment_model_state_hourly_earnings(equipment_model_id, equipment_state_id, value)
+                                 VALUES ('{equipmentStateEarning.EquipmentModelId}', '{equipmentStateEarning.EquipmentStateId}', {equipmentStateEarning.Value});";
 
-                return Results.Created($"/equipment_state_earning/{equipmentStateEarning.EquipmentModelId}{equipmentStateEarning.EquipmentStateId}", equipmentStateEarning);
+                await context.Database.ExecuteSqlRawAsync(sql);
+                return Results.Created($"/equipment_state_earning/{equipmentStateEarning.EquipmentModelId}&{equipmentStateEarning.EquipmentStateId}", equipmentStateEarning);
             });
 
             //Read Equipment_model_state_hourly_earning by model id and state id
@@ -147,15 +151,11 @@ namespace src_teste_backend_estagio_v3
             });
 
             //Delete Equipment_model_state_hourly_earning
-            app.MapDelete("/equipment_state_earning/{modelId:Guid}&{stateId:Guid}", async ([FromRoute] Guid modelId, [FromRoute] Guid stateId, [FromBody] EquipmentModelStateHourlyEarning equipmentStateEarning, ForestOpContext context) =>
+            app.MapDelete("/equipment_state_earning/{modelId:Guid}&{stateId:Guid}", async ([FromRoute] Guid modelId, [FromRoute] Guid stateId,ForestOpContext context) =>
             {
-                var contextEquipmentStateEarning = context.EquipmentModelStateHourlyEarnings.Where(e => e.EquipmentModelId == modelId && e.EquipmentStateId == stateId).First();
-                if (contextEquipmentStateEarning is not null)
-                {
-                    context.EquipmentModelStateHourlyEarnings.Remove(contextEquipmentStateEarning);
-                    await context.SaveChangesAsync();
-                    Results.Ok(equipmentStateEarning);
-                }
+                string sql = @$"DELETE FROM operation.equipment_model_state_hourly_earnings
+                                WHERE equipment_model_id = '{modelId}' AND equipment_state_id = '{stateId}';";
+                await context.Database.ExecuteSqlRawAsync(sql);
                 return Results.NoContent();
             });
 
@@ -166,14 +166,14 @@ namespace src_teste_backend_estagio_v3
             //Create equipment_position_history
             app.MapPost("/equipment_position_history", async ([FromBody] EquipmentPositionHistory equipmentPosition, ForestOpContext context) =>
             {
-                context.EquipmentPositionHistories.Add(equipmentPosition);
-                await context.SaveChangesAsync();
-
+                string sql = @$"INSERT INTO operation.equipment_position_history (equipment_id, date, lat, lon) 
+	                            VALUES ('{equipmentPosition.EquipmentId}', '{equipmentPosition.Date}',{equipmentPosition.Lat},{equipmentPosition.Lon});";
+                await context.Database.ExecuteSqlRawAsync(sql);
                 return Results.Created($"/equipment_position_history/{equipmentPosition.EquipmentId}", equipmentPosition);
             });
 
             //Read equipment_position_history by id
-            app.MapGet("/equipment_position_history/{id:Guid}&{date:DateTime}", async ([FromRoute] Guid id, [FromRoute] DateTime date, [FromBody] EquipmentPositionHistory equipmentPosition, ForestOpContext context) =>
+            app.MapGet("/equipment_position_history/{id:Guid}&{date:DateTime}", async ([FromRoute] Guid id, [FromRoute] DateTime date, ForestOpContext context) =>
             {
                 return await context.EquipmentPositionHistories.Where(h => h.EquipmentId == id && h.Date == date).FirstAsync();
             });
@@ -195,15 +195,11 @@ namespace src_teste_backend_estagio_v3
             });
 
             //Delete equipment_model
-            app.MapDelete("/equipment_position_history/{id:Guid}", async ([FromRoute] Guid id, [FromBody] EquipmentPositionHistory equipmentPosition, ForestOpContext context) =>
+            app.MapDelete("/equipment_position_history/{id:Guid}&{date:DateTime}", async ([FromRoute] Guid id, [FromRoute] DateTime date, ForestOpContext context) =>
             {
-                var contextEquipmentPosition = context.EquipmentPositionHistories.Where(h => h.EquipmentId == id).First();
-                if (contextEquipmentPosition is not null)
-                {
-                    context.EquipmentPositionHistories.Remove(contextEquipmentPosition);
-                    await context.SaveChangesAsync();
-                    Results.Ok(equipmentPosition);
-                }
+                string sql = @$"DELETE FROM operation.equipment_position_history
+                                WHERE equipment_id = '{id}' AND date = '{date}';";
+                await context.Database.ExecuteSqlRawAsync(sql);
                 return Results.NoContent();
             });
 
@@ -212,10 +208,46 @@ namespace src_teste_backend_estagio_v3
              */
 
             //Create equipment_state
-            //Read equipment_state
-            //Update equipment_state
-            //Delete equipment_state
+            app.MapPost("/equipment_state/", async ([FromBody] EquipmentState equipmentState, ForestOpContext context) =>
+            {
+                context.EquipmentStates.Add(equipmentState);
+                await context.SaveChangesAsync();
 
+                return Results.Created($"/equipment_states/{equipmentState.Id}", equipmentState);
+            });
+
+            //Read equipment_state
+            app.MapGet("/equipment_state/{id:Guid}", async ([FromRoute] Guid id, ForestOpContext context) =>
+            {
+                return await context.EquipmentStates.FindAsync(id);
+            });
+
+            //Update equipment_state
+            app.MapPut("/equipment_state/{id:Guid}", async ([FromRoute] Guid id, [FromBody] EquipmentState equipmentState, ForestOpContext context) =>
+            {
+                var contextEquipmentState = await context.EquipmentStates.FindAsync(id);
+
+                if (contextEquipmentState is null) return Results.NotFound();
+
+                contextEquipmentState.Name = equipmentState.Name;
+                contextEquipmentState.Id = equipmentState.Id;
+                contextEquipmentState.Color = equipmentState.Color;
+
+                await context.SaveChangesAsync();
+                return Results.NoContent();
+            });
+            //Delete equipment_state
+            app.MapDelete("/equipment_state/{id:Guid}", async ([FromRoute] Guid id, ForestOpContext context) =>
+            {
+                var contextEquipmentState = context.EquipmentStates.Find(id);
+                if (contextEquipmentState is not null)
+                {
+                    context.EquipmentStates.Remove(contextEquipmentState);
+                    await context.SaveChangesAsync();
+                    return Results.NoContent();
+                }
+                return Results.NotFound();
+            });
 
 
 
@@ -224,9 +256,68 @@ namespace src_teste_backend_estagio_v3
              */
 
             //Create Equipment_state_history
+            app.MapPost("/equipment_state_history", async ([FromBody] EquipmentStateHistory equipmentStateHistory, ForestOpContext context) =>
+            {
+                string sql = @$"INSERT INTO operation.equipment_position_history (equipment_id, date, equipment_state_id) 
+	                            VALUES ('{equipmentStateHistory.EquipmentId}', '{equipmentStateHistory.Date}', '{equipmentStateHistory.EquipmentStateId}');";
+                await context.Database.ExecuteSqlRawAsync(sql);
+                return Results.Created($"/equipment_state_history/{equipmentStateHistory.EquipmentId}", equipmentStateHistory);
+            });
+
             //Read Equipment_state_history
+            app.MapGet("/equipment_state_history/{id:Guid}&{date:DateTime}", async ([FromRoute] Guid id, [FromRoute] DateTime date, ForestOpContext context) =>
+            {
+                return await context.EquipmentStateHistories.Where(h => h.EquipmentId == id && h.Date == date).FirstAsync();
+            });
+
             //Update Equipment_state_history
+            app.MapPut("/equipment_state_history/{id:Guid}&{date:DateTime}", async ([FromRoute] Guid id, [FromRoute] DateTime date, [FromBody] EquipmentStateHistory equipmentStateHistory, ForestOpContext context) =>
+            {
+                var contextEquipmentStateHistory = await context.EquipmentStateHistories.Where(h => h.EquipmentId == id && h.Date == date).FirstAsync();
+
+                if (contextEquipmentStateHistory is null) return Results.NotFound();
+
+                contextEquipmentStateHistory.EquipmentId = equipmentStateHistory.EquipmentId;
+                contextEquipmentStateHistory.Date = equipmentStateHistory.Date;
+                contextEquipmentStateHistory.EquipmentStateId = equipmentStateHistory.EquipmentStateId;
+
+                await context.SaveChangesAsync();
+                return Results.NoContent();
+            });
+
             //Delete Equipment_state_history
+            app.MapDelete("/equipment_state_history/{id:Guid}&{date:DateTime}", async ([FromRoute] Guid id, [FromRoute] DateTime date, ForestOpContext context) =>
+            {
+                string sql = @$"DELETE FROM operation.equipment_state_history
+                                WHERE equipment_id = '{id}' AND date = '{date}';";
+                await context.Database.ExecuteSqlRawAsync(sql);
+                return Results.NoContent();
+            });
+
+
+            /*
+             * Endpoint of equipment actual state
+             */
+
+            //Read equipment_actual_state
+            app.MapGet("/equipment_actual_state", (ForestOpContext context) => {
+                List<EquipmentStateHistory> list = context.EquipmentStateHistories.FromSql($@"SELECT distinct on (equipment_id) equipment_id, date, equipment_state_id 
+                                                                                              FROM operation.equipment_state_history 
+                                                                                              ORDER BY equipment_id, date DESC;").ToList();
+                return list;
+            });
+
+            /*
+             * Endpoint of actual position by equipment
+             */
+
+            //Read actual_position_by_equipment
+            app.MapGet("/actual_position_by_equipment", async (ForestOpContext context) => {
+                List<EquipmentPositionHistory> list = context.EquipmentPositionHistories.FromSql($@"SELECT distinct on (equipment_id) equipment_id, date, lat, lon 
+                                                                                                    FROM operation.equipment_position_history 
+                                                                                                    ORDER BY equipment_id, date desc;").ToList();
+                return list;
+            });
 
 
             app.UseSwagger();
