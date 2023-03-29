@@ -34,6 +34,7 @@ public class EquipmentService {
             Optional<EquipmentModel> equipmentModel = equipmentModelRepository.findById(equipmentRequest.getEquipmentModel());
 
             Equipment equipment = new Equipment();
+            equipment.setId(UUID.randomUUID());
             equipment.setEquipmentModel(equipmentModel.get());
             equipment.setName(equipmentRequest.getName());
 
