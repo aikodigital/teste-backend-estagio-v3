@@ -5,6 +5,7 @@ namespace PostgreAPI.Models
 {
     public partial class AikoAPIContext : DbContext
     {
+        public static string ConnectionString;
         public AikoAPIContext()
         {
         }
@@ -27,7 +28,7 @@ namespace PostgreAPI.Models
         public virtual DbSet<EquipmentStateHistory> EquipmentStateHistory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=AikoDB;Username=postgres;Password=H4rd$tyl3");
+        => optionsBuilder.UseNpgsql(ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

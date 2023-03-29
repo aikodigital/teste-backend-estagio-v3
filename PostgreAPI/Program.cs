@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PostgreAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+AikoAPIContext.ConnectionString = new PostgreAPI.ConnectionString().ToString();
 
 // Add services to the container.
 
@@ -11,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AikoAPIContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("AikoTesteContext")));
+options.UseNpgsql(builder.Configuration.GetConnectionString("AikoAPIContext")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
