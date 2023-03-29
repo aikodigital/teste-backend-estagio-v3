@@ -1,33 +1,35 @@
 package com.aikodigital.teste_estagio_backend_v3_Models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Table;
 
-@MappedSuperclass
-public abstract class Equipment_state {
+@Entity
+@Table(name = "equipment_state")
+public class Equipment_State {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String name;
 
     private String color;
 
-    public Equipment_state() {}
+    public Equipment_State() {}
 
-    public Equipment_state(String name, String color) {
+    public Equipment_State(String name, String color) {
         this.name = name;
         this.color = color;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,6 +49,7 @@ public abstract class Equipment_state {
         this.color = color;
     }
 }
+
 
 /*
 Essa classe recebe a Annotation @MappedSuperclass para indicar que é uma classe base que não será mapeada para o banco de dados.

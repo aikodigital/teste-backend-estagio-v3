@@ -1,30 +1,50 @@
 package com.aikodigital.teste_estagio_backend_v3_Models;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class Equipment_state_history {
+@Table(name = "equipment_state_history")
+public class Equipment_State_History {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "equipment_id")
+    @JoinColumn(name = "equipment_id", nullable = false)
     private Equipment equipment;
 
     @ManyToOne
-    @JoinColumn(name = "equipment_state_id")
-    private Equipment_state equipment_state;
+    @JoinColumn(name = "equipment_state_id", nullable = false)
+    private Equipment_State equipment_state;
 
-    private LocalDateTime date;
+    @Column(name = "timestamp", nullable = false)
+    private Date timestamp;
 
-    public Equipment_state_history() {}
+    public Equipment_State_History() {
+    }
 
-    public Equipment_state_history(Equipment equipment, Equipment_state equipment_state, LocalDateTime date) {
+    public Equipment_State_History(Equipment equipment, Equipment_State equipment_state, Date timestamp) {
         this.equipment = equipment;
         this.equipment_state = equipment_state;
-        this.date = date;
+        this.timestamp = timestamp;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Equipment getEquipment() {
@@ -35,22 +55,23 @@ public class Equipment_state_history {
         this.equipment = equipment;
     }
 
-    public Equipment_state getEquipment_state() {
+    public Equipment_State getEquipment_state() {
         return equipment_state;
     }
 
-    public void setEquipment_state(Equipment_state equipment_state) {
+    public void setEquipment_state(Equipment_State equipment_state) {
         this.equipment_state = equipment_state;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
+
 
 /*
 Essa classe recebe a Annotation @Entity para indicar que representa uma entidade de banco de dados.

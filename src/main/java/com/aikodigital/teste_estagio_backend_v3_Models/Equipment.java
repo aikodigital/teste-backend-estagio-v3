@@ -1,31 +1,59 @@
 package com.aikodigital.teste_estagio_backend_v3_Models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class Equipment extends Equipment_model {
+@Table(name = "equipment")
+public class Equipment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "equipment_model_id")
-    private Equipment_model equipment_model;
+    private Equipment_Model equipmentModel;
 
     public Equipment() {}
 
-    public Equipment(String name, Equipment_model equipment_model) {
-        super(name);
-        this.equipment_model = equipment_model;
+    public Equipment(String name, Equipment_Model equipmentModel) {
+        this.name = name;
+        this.equipmentModel = equipmentModel;
     }
 
-    public Equipment_model getEquipment_model() {
-        return equipment_model;
+    public Integer getId() {
+        return id;
     }
 
-    public void setEquipment_model(Equipment_model equipment_model) {
-        this.equipment_model = equipment_model;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Equipment_Model getEquipmentModel() {
+        return equipmentModel;
+    }
+
+    public void setEquipmentModel(Equipment_Model equipmentModel) {
+        this.equipmentModel = equipmentModel;
     }
 }
+
 
 /*
 Essa classe recebe Annotation @Entity para indicar que representa uma entidade de banco de dados.
