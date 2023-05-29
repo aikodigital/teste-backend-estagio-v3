@@ -2,11 +2,16 @@
 
 ![Aiko](img/aiko.png)
 
-Neste teste serão avaliados seus conhecimentos em C# ou Java, banco de dados e a metodologia aplicada no desenvolvimento, arquitetura e organização da aplicação final.
+Neste teste serão avaliados seus conhecimentos em C# ou Java, banco de dados e a metodologia aplicada no
+desenvolvimento, arquitetura e organização da aplicação final.
 
 ## O Desafio
 
-Você é o desenvolvedor backend de uma empresa que coleta dados de equipamentos utilizados em uma operação florestal. Dentre esses dados estão o histórico de posições e estados desses equipamentos. O estado de um equipamento é utilizado para saber o que o equipamento estava fazendo em um determinado momento, seja *Operando*, *Parado* ou em *Manutenção*. O estado é alterado de acordo com o uso do equipamento na operação, já a posição do equipamento é coletada através do GPS e é enviada e armazenada de tempo em tempo pela aplicação.
+Você é o desenvolvedor backend de uma empresa que coleta dados de equipamentos utilizados em uma operação florestal.
+Dentre esses dados estão o histórico de posições e estados desses equipamentos. O estado de um equipamento é utilizado
+para saber o que o equipamento estava fazendo em um determinado momento, seja *Operando*, *Parado* ou em *Manutenção*. O
+estado é alterado de acordo com o uso do equipamento na operação, já a posição do equipamento é coletada através do GPS
+e é enviada e armazenada de tempo em tempo pela aplicação.
 
 Seu objetivo é, de posse desses dados, desenvolver uma aplicação backend que exponha esses dados através de uma API.
 
@@ -19,7 +24,8 @@ Esses requisitos são obrigatórios e devem ser desenvolvidos para a entrega do 
 * C# (.NET, .NET Core, etc).
 * Java (Spring, etc).
 * Mapeamento objeto-relacional (ORM).
-* Qualquer tecnologia (C#, Java) complementar as citadas anteriormente são permitidas desde que seu uso seja justificável.
+* Qualquer tecnologia (C#, Java) complementar as citadas anteriormente são permitidas desde que seu uso seja
+  justificável.
 
 ### Requisitos técnicos
 
@@ -27,13 +33,14 @@ Esses requisitos são obrigatórios e devem ser desenvolvidos para a entrega do 
 
 ### Requisitos de négocio
 
-* **API de CRUD**: Você deve desenvolver uma API que exponha os métodos de Criar, Excluir, Editar e Ler para as seguintes entidades:
-  * Equipamento.
-  * Estado de equipamento.
-  * Modelo de Equipamento.
-  * Ganhos por hora por estado.
-  * Histórico de posições de um equipamento.
-  * Histórico de estados de um equipamento.
+* **API de CRUD**: Você deve desenvolver uma API que exponha os métodos de Criar, Excluir, Editar e Ler para as
+  seguintes entidades:
+    * Equipamento.
+    * Estado de equipamento.
+    * Modelo de Equipamento.
+    * Ganhos por hora por estado.
+    * Histórico de posições de um equipamento.
+    * Histórico de estados de um equipamento.
 
 * **Estado atual do equipamento**: Endpoint na API que deve retornar o estado mais recente dos equipamentos.
 
@@ -44,15 +51,17 @@ Esses requisitos são obrigatórios e devem ser desenvolvidos para a entrega do 
 O dump do banco de dados necessário para realizar o teste está na pasta `/data`.
 
 Exemplo de como restaurar o banco utilizando o `pg_restore`:
+
 ```sh
 pg_restore -U [user] -d [dbname] -1 data.backup
 ```
 
-## Dados 
+## Dados
 
 ![Diagrama](img/diagram.png)
 
 ### equipment
+
 Contém todos os equipamentos da aplicação.
 
 * **id**: Identificador único do equipamento.
@@ -60,6 +69,7 @@ Contém todos os equipamentos da aplicação.
 * **name**: Nome do equipamento.
 
 ### equipment_state
+
 Contém todos os estados dos equipamentos.
 
 * **id**: Identificador único do estado de equipamento
@@ -67,12 +77,14 @@ Contém todos os estados dos equipamentos.
 * **color**: Cor utilizada para representar o estado.
 
 ### equipment_model
+
 Contém todos os modelos de equipamentos.
 
 * **id**: Identificador único do modelo de equipamento.
 * **name**: Nome do modelo de equipamento.
 
 ### equipment_model_state_hourly_earnings
+
 Informação de qual é o valor por hora do modelo de equipamento em cada um dos estados.
 
 * **equipment_model_id**: Chave estrangeira, utilizada para referenciar de qual modelo é esse valor.
@@ -80,13 +92,16 @@ Informação de qual é o valor por hora do modelo de equipamento em cada um dos
 * **value**: Valor gerado por hora nesse estado.
 
 ### equipment_state_history
+
 O histórico de estados por equipamento.
 
 * **equipment_id**: Chave estrangeira, utilizada para referenciar de qual equipamento é esse estado.
 * **date**: Data em que o equipamento declarou estar nesse estado.
-* **equipment_state_id**: Chave estrangeira, utilizada para referenciar qual é o estado que o equipamento estava nesse momento.
+* **equipment_state_id**: Chave estrangeira, utilizada para referenciar qual é o estado que o equipamento estava nesse
+  momento.
 
 ### equipment_position_history
+
 O histórico de posições dos equipamentos.
 
 * **equipment_id**: Chave estrangeira, utilizada para referenciar de qual equipamento é essa posição.
@@ -100,7 +115,9 @@ O histórico de posições dos equipamentos.
 
 ## Extras
 
-Aqui são listados algumas sugestões para você que quer ir além do desafio inicial. Lembrando que você não precisa se limitar a essas sugestões, se tiver pensado em outra funcionalidade que considera relevante ao escopo da aplicação fique à vontade para implementá-la.
+Aqui são listados algumas sugestões para você que quer ir além do desafio inicial. Lembrando que você não precisa se
+limitar a essas sugestões, se tiver pensado em outra funcionalidade que considera relevante ao escopo da aplicação fique
+à vontade para implementá-la.
 
 * **Documentação da API**: Realizar a documentação da API desenvolvida.
 
@@ -112,18 +129,20 @@ Aqui são listados algumas sugestões para você que quer ir além do desafio in
 
 * **Testes**: Desenvolva testes que achar necessário para a aplicação, seja testes unitários, testes automatizados, etc.
 
-* **Documentação da Aplicação**: Gerar uma documentação da aplicação. A documentação pode incluir detalhes sobre as decisões tomadas, especificação dos componentes desenvolvidos, instruções de uso dentre outras informações que achar relevantes.
+* **Documentação da Aplicação**: Gerar uma documentação da aplicação. A documentação pode incluir detalhes sobre as
+  decisões tomadas, especificação dos componentes desenvolvidos, instruções de uso dentre outras informações que achar
+  relevantes.
 
 ## Entregas
 
 Para realizar a entrega do teste você deve:
 
 * Relizar o fork e clonar esse repositório para sua máquina.
-  
+
 * Criar uma branch com o nome de `teste/[NOME]`.
-  * `[NOME]`: Seu nome.
-  * Exemplos: `teste/fulano-da-silva`; `teste/beltrano-primeiro-gomes`.
-  
+    * `[NOME]`: Seu nome.
+    * Exemplos: `teste/fulano-da-silva`; `teste/beltrano-primeiro-gomes`.
+
 * Faça um commit da sua branch com a implementação do teste.
-  
+
 * Realize o pull request da sua branch nesse repositório.
