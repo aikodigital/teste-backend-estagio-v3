@@ -56,10 +56,6 @@ public class EquipmentModelStateHourlyEarnings {
         this.value = value;
     }
 
-    public EquipmentModelStateHourlyEarningsDTO equipmentModelStateHourlyEarningsToDTO() {
-        return new EquipmentModelStateHourlyEarningsDTO(equipmentModel, equipmentState, value);
-    }
-
     @Override
     public String toString() {
         return "EquipmentModelStateHourlyEarnings{" +

@@ -1,10 +1,12 @@
 package com.gpmrks.testebackendestagiov3.equipment.service.impl;
 
+import com.gpmrks.testebackendestagiov3.equipment.dto.EquipmentDTO;
 import com.gpmrks.testebackendestagiov3.equipment.dto.EquipmentForm;
 import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 import com.gpmrks.testebackendestagiov3.equipment.exception.EquipmentNotFoundException;
 import com.gpmrks.testebackendestagiov3.equipment.repository.EquipmentRepository;
 import com.gpmrks.testebackendestagiov3.equipment.service.EquipmentService;
+import com.gpmrks.testebackendestagiov3.equipment_model.repository.EquipmentModelRepository;
 import com.gpmrks.testebackendestagiov3.equipment_model.service.EquipmentModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,48 +19,50 @@ import java.util.UUID;
 public class EquipmentServiceImpl implements EquipmentService {
 
     private EquipmentRepository equipmentRepository;
-
+    private EquipmentModelRepository equipmentModelRepository;
     private EquipmentModelService equipmentModelService;
 
     @Autowired
-    public EquipmentServiceImpl(EquipmentRepository equipmentRepository, EquipmentModelService equipmentModelService) {
+    public EquipmentServiceImpl(EquipmentRepository equipmentRepository, EquipmentModelRepository equipmentModelRepository, EquipmentModelService equipmentModelService) {
         this.equipmentRepository = equipmentRepository;
+        this.equipmentModelRepository = equipmentModelRepository;
         this.equipmentModelService = equipmentModelService;
     }
 
     @Override
-    public List<Equipment> getAllEquipments() {
-        return equipmentRepository.findAll();
+    public List<EquipmentDTO> getAllEquipments() {
+        List<Equipment> equipmentList = equipmentRepository.findAll();
+        return equipmentList.stream().map(EquipmentDTO::new).toList();
     }
 
     @Override
-    public List<Equipment> getAllEquipmentsByModelId(UUID modelId) {
+    public List<EquipmentDTO> getAllEquipmentsByModelId(UUID modelId) {
         List<Equipment> equipments = equipmentRepository.getEquipmentsByModelId(modelId);
-        return equipments;
+        return equipments.stream().map(EquipmentDTO::new).toList();
     }
 
     @Override
-    public Equipment getEquipmentById(UUID id) {
-        return checkIfEquipmentExists(id);
+    public EquipmentDTO getEquipmentById(UUID id) {
+        Equipment equipment = checkIfEquipmentExists(id);
+        return new EquipmentDTO(equipment);
     }
 
     @Override
-    public Equipment createEquipment(EquipmentForm equipmentToCreate) {
+    public EquipmentDTO createEquipment(EquipmentForm equipmentToCreate) {
         Equipment equipment = new Equipment();
-        equipment.setEquipmentModel(equipmentModelService.getEquipModelById(equipmentToCreate.getEquipmentModelId()));
+        equipment.setEquipmentModel(equipmentModelRepository.findById(equipmentToCreate.getEquipmentModelId()).get());
         equipment.setName(equipmentToCreate.getName());
-        equipmentRepository.save(equipment);
-
-        return equipment;
+        Equipment equipmentSaved = equipmentRepository.save(equipment);
+        return new EquipmentDTO(equipmentSaved);
     }
 
     @Override
-    public Equipment updateEquipment(UUID id, EquipmentForm updatedEquipment) {
+    public EquipmentDTO updateEquipment(UUID id, EquipmentForm updatedEquipment) {
         Equipment equipment = checkIfEquipmentExists(id);
         equipment.setName(updatedEquipment.getName());
-        equipment.setEquipmentModel(equipmentModelService.getEquipModelById(updatedEquipment.getEquipmentModelId()));
-        equipmentRepository.save(equipment);
-        return equipment;
+        equipment.setEquipmentModel(equipmentModelRepository.findById(updatedEquipment.getEquipmentModelId()).get());
+        Equipment equipmentUpdated = equipmentRepository.save(equipment);
+        return new EquipmentDTO(equipmentUpdated);
     }
 
     @Override

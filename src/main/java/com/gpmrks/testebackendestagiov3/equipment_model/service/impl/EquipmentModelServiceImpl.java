@@ -2,6 +2,7 @@ package com.gpmrks.testebackendestagiov3.equipment_model.service.impl;
 
 import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 import com.gpmrks.testebackendestagiov3.equipment.exception.EquipmentNotFoundException;
+import com.gpmrks.testebackendestagiov3.equipment_model.dto.EquipmentModelDTO;
 import com.gpmrks.testebackendestagiov3.equipment_model.dto.EquipmentModelForm;
 import com.gpmrks.testebackendestagiov3.equipment_model.entity.EquipmentModel;
 import com.gpmrks.testebackendestagiov3.equipment_model.exception.CannotDeleteEquipmentModelException;
@@ -27,29 +28,31 @@ public class EquipmentModelServiceImpl implements EquipmentModelService {
     }
 
     @Override
-    public List<EquipmentModel> getAllEquipmentsModels() {
-        return equipmentModelRepository.findAll();
+    public List<EquipmentModelDTO> getAllEquipmentsModels() {
+        List<EquipmentModel> equipmentModelList = equipmentModelRepository.findAll();
+        return equipmentModelList.stream().map(EquipmentModelDTO::new).toList();
     }
 
     @Override
-    public EquipmentModel getEquipModelById(UUID id) {
-        return checkIfEquipmentModelExists(id);
+    public EquipmentModelDTO getEquipModelById(UUID id) {
+        EquipmentModel equipmentModel = checkIfEquipmentModelExists(id);
+        return new EquipmentModelDTO(equipmentModel);
     }
 
     @Override
-    public EquipmentModel createEquipmentModel(EquipmentModelForm equipmentModelToCreate) {
+    public EquipmentModelDTO createEquipmentModel(EquipmentModelForm equipmentModelToCreate) {
         EquipmentModel equipmentModel = new EquipmentModel();
         equipmentModel.setName(equipmentModelToCreate.getName());
-        equipmentModelRepository.save(equipmentModel);
-        return equipmentModel;
+        EquipmentModel equipmentModelSaved = equipmentModelRepository.save(equipmentModel);
+        return new EquipmentModelDTO(equipmentModelSaved);
     }
 
     @Override
-    public EquipmentModel updateEquipmentModel(UUID id, EquipmentModelForm updatedEquipmentModel) {
+    public EquipmentModelDTO updateEquipmentModel(UUID id, EquipmentModelForm updatedEquipmentModel) {
         EquipmentModel equipmentModel = checkIfEquipmentModelExists(id);
         equipmentModel.setName(updatedEquipmentModel.getName());
-        equipmentModelRepository.save(equipmentModel);
-        return equipmentModel;
+        EquipmentModel equipmentModelUpdated = equipmentModelRepository.save(equipmentModel);
+        return new EquipmentModelDTO(equipmentModelUpdated);
     }
 
     @Override

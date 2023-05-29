@@ -60,10 +60,6 @@ public class EquipmentStateHistory {
         this.equipmentState = equipmentState;
     }
 
-    public EquipmentStateHistoryDTO equipmentStateHistoryDTO() {
-        return new EquipmentStateHistoryDTO(equipment, date, equipmentState);
-    }
-
     @Override
     public String toString() {
         return "EquipmentStateHistory{" +

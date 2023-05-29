@@ -53,10 +53,6 @@ public class EquipmentState {
         this.color = color;
     }
 
-    public EquipmentStateDTO equipmentStateToDTO() {
-        return new EquipmentStateDTO(id, name, color);
-    }
-
     @Override
     public String toString() {
         return "EquipmentState{" +

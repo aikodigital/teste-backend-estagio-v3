@@ -35,30 +35,23 @@ public class EquipmentController {
     @GetMapping
     @Operation(summary = "Lista de Equipamentos", description = "Lista todos os Equipamentos")
     public ResponseEntity<List<EquipmentDTO>> getAllEquipments() {
-        List<Equipment> equipments = equipmentService.getAllEquipments();
-        List<EquipmentDTO> equipmentDTOS = equipments.stream()
-                .map(Equipment::equipmentToDTO)
-                .toList();
-        EquipmentHateoas.toHateoasList(equipmentDTOS);
-        return ResponseEntity.ok().body(equipmentDTOS);
+        List<EquipmentDTO> equipmentsDTO = equipmentService.getAllEquipments();
+        EquipmentHateoas.toHateoasList(equipmentsDTO);
+        return ResponseEntity.ok().body(equipmentsDTO);
     }
 
     @GetMapping("/model/{modelId}")
     @Operation(summary = "Lista de Equipamentos por Modelo", description = "Lista todos os Equipamentos de determinado Modelo, pelo ID do Modelo")
     public ResponseEntity<List<EquipmentDTO>> getEquipmentByModelId(@PathVariable UUID modelId) {
-        List<Equipment> equipments = equipmentService.getAllEquipmentsByModelId(modelId);
-        List<EquipmentDTO> equipmentDTOS = equipments.stream()
-                .map(Equipment::equipmentToDTO)
-                .toList();
-        EquipmentHateoas.toHateoasList(equipmentDTOS);
-        return ResponseEntity.ok().body(equipmentDTOS);
+        List<EquipmentDTO> equipmentsDTO = equipmentService.getAllEquipmentsByModelId(modelId);
+        EquipmentHateoas.toHateoasList(equipmentsDTO);
+        return ResponseEntity.ok().body(equipmentsDTO);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Consulta de Equipamento", description = "Consulta determinado Equipamento por seu ID")
     public ResponseEntity<EquipmentDTO> getEquipmentById(@PathVariable UUID id) {
-        Equipment equipment = equipmentService.getEquipmentById(id);
-        EquipmentDTO equipmentDTO = equipment.equipmentToDTO();
+        EquipmentDTO equipmentDTO = equipmentService.getEquipmentById(id);
         EquipmentHateoas.toHateoas(id ,equipmentDTO);
         return ResponseEntity.ok().body(equipmentDTO);
     }
@@ -66,9 +59,8 @@ public class EquipmentController {
     @PostMapping
     @Operation(summary = "Criação de Equipamento", description = "Cria um novo Equipamento, sendo necessário o nome do equipamento e o ID do Modelo")
     public ResponseEntity<EquipmentDTO> createEquipment(@RequestBody EquipmentForm equipmentToSave, UriComponentsBuilder uriComponentsBuilder) {
-        Equipment equipment = equipmentService.createEquipment(equipmentToSave);
-        EquipmentDTO equipmentDTO = equipment.equipmentToDTO();
-        URI uri = uriComponentsBuilder.path("/equipments/{id}").buildAndExpand(equipment.getId()).toUri();
+        EquipmentDTO equipmentDTO = equipmentService.createEquipment(equipmentToSave);
+        URI uri = uriComponentsBuilder.path("/equipments/{id}").buildAndExpand(equipmentDTO.getId()).toUri();
         EquipmentHateoas.toHateoas(equipmentDTO.getId(), equipmentDTO);
         return ResponseEntity.created(uri).body(equipmentDTO);
     }
@@ -76,8 +68,7 @@ public class EquipmentController {
     @PutMapping("/{id}")
     @Operation(summary = "Atualização de Equipamento", description = "Atualiza um Equipamento por seu ID, podendo atualizar o nome do Equipamento e o Modelo")
     public ResponseEntity<EquipmentDTO> updateEquipment(@PathVariable UUID id, @RequestBody EquipmentForm equipmentToUpdate) {
-        Equipment equipment = equipmentService.updateEquipment(id, equipmentToUpdate);
-        EquipmentDTO equipmentDTO = equipment.equipmentToDTO();
+        EquipmentDTO equipmentDTO = equipmentService.updateEquipment(id, equipmentToUpdate);
         EquipmentHateoas.toHateoas(equipmentDTO.getId(), equipmentDTO);
         return ResponseEntity.ok().body(equipmentDTO);
     }

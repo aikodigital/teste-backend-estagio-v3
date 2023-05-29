@@ -1,5 +1,6 @@
 package com.gpmrks.testebackendestagiov3.equipment.dto;
 
+import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 import com.gpmrks.testebackendestagiov3.equipment_model.entity.EquipmentModel;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -11,10 +12,10 @@ public class EquipmentDTO extends RepresentationModel<EquipmentDTO> {
     private EquipmentModel equipmentModel;
     private String name;
 
-    public EquipmentDTO(UUID id, EquipmentModel equipmentModel, String name) {
-        this.id = id;
-        this.equipmentModel = equipmentModel;
-        this.name = name;
+    public EquipmentDTO(Equipment equipment) {
+        id = equipment.getId();
+        equipmentModel = equipment.getEquipmentModel();
+        name = equipment.getName();
     }
 
     public UUID getId() {

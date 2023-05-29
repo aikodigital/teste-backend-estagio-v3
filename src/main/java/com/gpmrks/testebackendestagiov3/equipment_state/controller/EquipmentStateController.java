@@ -31,19 +31,15 @@ public class EquipmentStateController {
     @GetMapping
     @Operation(summary = "Lista de Estados de Funcionamento de Equipamentos", description = "Lista todos os Estados de Funcionamento dos Equipamentos")
     public ResponseEntity<List<EquipmentStateDTO>> getAllEquipmentsStates() {
-        List<EquipmentState> equipmentStates = equipmentStateService.getAllEquipmentsStates();
-        List<EquipmentStateDTO> equipmentStateDTOS = equipmentStates.stream()
-                .map(EquipmentState::equipmentStateToDTO)
-                .toList();
-        EquipmentStateHateoas.toHateoasList(equipmentStateDTOS);
-        return ResponseEntity.ok().body(equipmentStateDTOS);
+        List<EquipmentStateDTO> equipmentStatesDTO = equipmentStateService.getAllEquipmentsStates();
+        EquipmentStateHateoas.toHateoasList(equipmentStatesDTO);
+        return ResponseEntity.ok().body(equipmentStatesDTO);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Consulta de Estado de Funcionamento de Equipamento", description = "Consulta um determinado Estado de Funcionamento dos Equipamentos")
     public ResponseEntity<EquipmentStateDTO> getEquipmentStateById(@PathVariable UUID id) {
-        EquipmentState equipmentState = equipmentStateService.getEquipmentStateById(id);
-        EquipmentStateDTO equipmentStateDTO = equipmentState.equipmentStateToDTO();
+        EquipmentStateDTO equipmentStateDTO = equipmentStateService.getEquipmentStateById(id);
         EquipmentStateHateoas.toHateoas(equipmentStateDTO.getId(), equipmentStateDTO);
         return ResponseEntity.ok().body(equipmentStateDTO);
     }
@@ -51,9 +47,8 @@ public class EquipmentStateController {
     @PostMapping
     @Operation(summary = "Criação de Estado de Funcionamento de Equipamentos", description = "Cria um novo Estado de Funcionamento dos Equipamentos")
     public ResponseEntity<EquipmentStateDTO> createEquipmentState(@RequestBody EquipmentStateForm equipmentStateToCreate, UriComponentsBuilder uriComponentsBuilder) {
-        EquipmentState equipmentState = equipmentStateService.createEquipmentState(equipmentStateToCreate);
-        EquipmentStateDTO equipmentStateDTO = equipmentState.equipmentStateToDTO();
-        URI uri = uriComponentsBuilder.path("/equipments-states/{id}").buildAndExpand(equipmentState.getId()).toUri();
+        EquipmentStateDTO equipmentStateDTO = equipmentStateService.createEquipmentState(equipmentStateToCreate);
+        URI uri = uriComponentsBuilder.path("/equipments-states/{id}").buildAndExpand(equipmentStateDTO.getId()).toUri();
         EquipmentStateHateoas.toHateoas(equipmentStateDTO.getId(), equipmentStateDTO);
         return ResponseEntity.created(uri).body(equipmentStateDTO);
     }
@@ -61,8 +56,7 @@ public class EquipmentStateController {
     @PutMapping("{id}")
     @Operation(summary = "Atualização de Estado de Funcionamento de Equipamentos", description = "Atualiza um Estado de Funcionamento dos Equipamentos pelo ID do Estado de Funcionamento")
     public ResponseEntity<EquipmentStateDTO> updateEquipmentState(@PathVariable UUID id, @RequestBody EquipmentStateForm updatedEquipmentState) {
-        EquipmentState equipmentState = equipmentStateService.updateEquipmentState(id, updatedEquipmentState);
-        EquipmentStateDTO equipmentStateDTO = equipmentState.equipmentStateToDTO();
+        EquipmentStateDTO equipmentStateDTO = equipmentStateService.updateEquipmentState(id, updatedEquipmentState);
         EquipmentStateHateoas.toHateoas(equipmentStateDTO.getId(), equipmentStateDTO);
         return ResponseEntity.ok().body(equipmentStateDTO);
     }

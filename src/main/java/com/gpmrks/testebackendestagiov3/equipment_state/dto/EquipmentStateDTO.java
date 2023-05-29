@@ -1,5 +1,6 @@
 package com.gpmrks.testebackendestagiov3.equipment_state.dto;
 
+import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.UUID;
@@ -10,10 +11,10 @@ public class EquipmentStateDTO extends RepresentationModel<EquipmentStateDTO> {
     private String name;
     private String color;
 
-    public EquipmentStateDTO(UUID id, String name, String color) {
-        this.id = id;
-        this.name = name;
-        this.color = color;
+    public EquipmentStateDTO(EquipmentState equipmentState) {
+        id = equipmentState.getId();
+        name = equipmentState.getName();
+        color = equipmentState.getColor();
     }
 
     public UUID getId() {

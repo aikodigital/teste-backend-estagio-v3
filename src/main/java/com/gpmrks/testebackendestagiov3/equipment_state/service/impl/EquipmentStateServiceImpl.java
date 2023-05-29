@@ -1,5 +1,6 @@
 package com.gpmrks.testebackendestagiov3.equipment_state.service.impl;
 
+import com.gpmrks.testebackendestagiov3.equipment_state.dto.EquipmentStateDTO;
 import com.gpmrks.testebackendestagiov3.equipment_state.dto.EquipmentStateForm;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 import com.gpmrks.testebackendestagiov3.equipment_state.exception.CannotDeleteEquipmentStateException;
@@ -26,31 +27,33 @@ public class EquipmentStateServiceImpl implements EquipmentStateService {
     }
 
     @Override
-    public List<EquipmentState> getAllEquipmentsStates() {
-        return equipmentStateRepository.findAll();
+    public List<EquipmentStateDTO> getAllEquipmentsStates() {
+        List<EquipmentState> equipmentStateList = equipmentStateRepository.findAll();
+        return equipmentStateList.stream().map(EquipmentStateDTO::new).toList();
     }
 
     @Override
-    public EquipmentState getEquipmentStateById(UUID id) {
-        return checkIfEquipmentStateExists(id);
+    public EquipmentStateDTO getEquipmentStateById(UUID id) {
+        EquipmentState equipmentState = checkIfEquipmentStateExists(id);
+        return new EquipmentStateDTO(equipmentState);
     }
 
     @Override
-    public EquipmentState createEquipmentState(EquipmentStateForm equipmentStateToCreate) {
+    public EquipmentStateDTO createEquipmentState(EquipmentStateForm equipmentStateToCreate) {
         EquipmentState equipmentState = new EquipmentState();
         equipmentState.setName(equipmentStateToCreate.getName());
         equipmentState.setColor(equipmentStateToCreate.getColor());
-        equipmentStateRepository.save(equipmentState);
-        return equipmentState;
+        EquipmentState equipmentStateSaved = equipmentStateRepository.save(equipmentState);
+        return new EquipmentStateDTO(equipmentStateSaved);
     }
 
     @Override
-    public EquipmentState updateEquipmentState(UUID id, EquipmentStateForm updatedEquipmentState) {
+    public EquipmentStateDTO updateEquipmentState(UUID id, EquipmentStateForm updatedEquipmentState) {
         EquipmentState equipmentState = checkIfEquipmentStateExists(id);
         equipmentState.setName(updatedEquipmentState.getName());
         equipmentState.setColor(updatedEquipmentState.getColor());
-        equipmentStateRepository.save(equipmentState);
-        return equipmentState;
+        EquipmentState equipmentStateUpdated = equipmentStateRepository.save(equipmentState);
+        return new EquipmentStateDTO(equipmentStateUpdated);
     }
 
     @Override

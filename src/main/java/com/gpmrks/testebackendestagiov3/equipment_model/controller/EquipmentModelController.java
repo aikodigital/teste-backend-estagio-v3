@@ -31,10 +31,7 @@ public class EquipmentModelController {
     @GetMapping
     @Operation(summary = "Lista de Modelos de Equipamentos", description = "Lista todos os Modelos de Equipamentos")
     public ResponseEntity<List<EquipmentModelDTO>> getAllEquipmentsModels() {
-        List<EquipmentModel> equipmentModels = equipmentModelService.getAllEquipmentsModels();
-        List<EquipmentModelDTO> equipmentModelDTOS = equipmentModels.stream()
-                .map(EquipmentModel::equipmentModelToDTO)
-                .toList();
+        List<EquipmentModelDTO> equipmentModelDTOS = equipmentModelService.getAllEquipmentsModels();
         EquipmentModelHateoas.toHateoasList(equipmentModelDTOS);
         return ResponseEntity.ok().body(equipmentModelDTOS);
     }
@@ -42,8 +39,7 @@ public class EquipmentModelController {
     @GetMapping("{id}")
     @Operation(summary = "Consulta de Modelo", description = "Consulta determinado Modelo por seu ID")
     public ResponseEntity<EquipmentModelDTO> getEquipmentModelById(@PathVariable UUID id) {
-        EquipmentModel equipmentModel = equipmentModelService.getEquipModelById(id);
-        EquipmentModelDTO equipmentModelDTO = equipmentModel.equipmentModelToDTO();
+        EquipmentModelDTO equipmentModelDTO = equipmentModelService.getEquipModelById(id);
         EquipmentModelHateoas.toHateoas(equipmentModelDTO.getId(), equipmentModelDTO);
         return ResponseEntity.ok().body(equipmentModelDTO);
     }
@@ -51,9 +47,8 @@ public class EquipmentModelController {
     @PostMapping
     @Operation(summary = "Criação de Modelo de Equipamento", description = "Cria um novo Modelo de Equipamento sendo necessário passar um Nome de Modelo")
     public ResponseEntity<EquipmentModelDTO> createEquipmentModel(@RequestBody EquipmentModelForm equipmentModelToSave, UriComponentsBuilder uriComponentsBuilder) {
-        EquipmentModel equipmentModel = equipmentModelService.createEquipmentModel(equipmentModelToSave);
-        EquipmentModelDTO equipmentModelDTO = equipmentModel.equipmentModelToDTO();
-        URI uri = uriComponentsBuilder.path("/equipments-models/{id}").buildAndExpand(equipmentModel.getId()).toUri();
+        EquipmentModelDTO equipmentModelDTO = equipmentModelService.createEquipmentModel(equipmentModelToSave);
+        URI uri = uriComponentsBuilder.path("/equipments-models/{id}").buildAndExpand(equipmentModelDTO.getId()).toUri();
         EquipmentModelHateoas.toHateoas(equipmentModelDTO.getId(), equipmentModelDTO);
         return ResponseEntity.created(uri).body(equipmentModelDTO);
     }
@@ -61,8 +56,7 @@ public class EquipmentModelController {
     @PutMapping("{id}")
     @Operation(summary = "Atualiza Modelo de Equipamento", description = "Atualiza determinado Modelo de Equipamento pelo ID do Modelo")
     public ResponseEntity<EquipmentModelDTO> updateEquipment(@PathVariable UUID id, @RequestBody EquipmentModelForm updatedEquipmentModel) {
-        EquipmentModel equipmentModel = equipmentModelService.updateEquipmentModel(id, updatedEquipmentModel);
-        EquipmentModelDTO equipmentModelDTO = equipmentModel.equipmentModelToDTO();
+        EquipmentModelDTO equipmentModelDTO = equipmentModelService.updateEquipmentModel(id, updatedEquipmentModel);
         EquipmentModelHateoas.toHateoas(equipmentModelDTO.getId(), equipmentModelDTO);
         return ResponseEntity.ok().body(equipmentModelDTO);
     }

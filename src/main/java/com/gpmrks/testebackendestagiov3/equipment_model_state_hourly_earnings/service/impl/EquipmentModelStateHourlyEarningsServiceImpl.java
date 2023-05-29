@@ -1,11 +1,14 @@
 package com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.service.impl;
 
+import com.gpmrks.testebackendestagiov3.equipment_model.repository.EquipmentModelRepository;
 import com.gpmrks.testebackendestagiov3.equipment_model.service.EquipmentModelService;
+import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.dto.EquipmentModelStateHourlyEarningsDTO;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.dto.EquipmentModelStateHourlyEarningsForm;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.entity.EquipmentModelStateHourlyEarnings;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.repository.EquipmentModelStateHourlyEarningsRepository;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.service.EquipmentModelStateHourlyEarningsService;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
+import com.gpmrks.testebackendestagiov3.equipment_state.repository.EquipmentStateRepository;
 import com.gpmrks.testebackendestagiov3.equipment_state.service.EquipmentStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,59 +20,66 @@ import java.util.UUID;
 public class EquipmentModelStateHourlyEarningsServiceImpl implements EquipmentModelStateHourlyEarningsService {
 
     private EquipmentModelStateHourlyEarningsRepository equipmentModelStateHourlyEarningsRepository;
+    private EquipmentModelRepository equipmentModelRepository;
+    private EquipmentStateRepository equipmentStateRepository;
     private EquipmentModelService equipmentModelService;
     private EquipmentStateService equipmentStateService;
 
     @Autowired
-    public EquipmentModelStateHourlyEarningsServiceImpl(EquipmentModelStateHourlyEarningsRepository equipmentModelStateHourlyEarningsRepository, EquipmentModelService equipmentModelService, EquipmentStateService equipmentStateService) {
+    public EquipmentModelStateHourlyEarningsServiceImpl(EquipmentModelStateHourlyEarningsRepository equipmentModelStateHourlyEarningsRepository, EquipmentModelRepository equipmentModelRepository, EquipmentStateRepository equipmentStateRepository, EquipmentModelService equipmentModelService, EquipmentStateService equipmentStateService) {
         this.equipmentModelStateHourlyEarningsRepository = equipmentModelStateHourlyEarningsRepository;
+        this.equipmentModelRepository = equipmentModelRepository;
+        this.equipmentStateRepository = equipmentStateRepository;
         this.equipmentModelService = equipmentModelService;
         this.equipmentStateService = equipmentStateService;
     }
 
     @Override
-    public List<EquipmentModelStateHourlyEarnings> getAllEquipmentsModelStateHourlyEarnings() {
-        return equipmentModelStateHourlyEarningsRepository.findAll();
+    public List<EquipmentModelStateHourlyEarningsDTO> getAllEquipmentsModelStateHourlyEarnings() {
+        List<EquipmentModelStateHourlyEarnings> equipmentModelStateHourlyEarnings = equipmentModelStateHourlyEarningsRepository.findAll();
+        return equipmentModelStateHourlyEarnings.stream().map(EquipmentModelStateHourlyEarningsDTO::new).toList();
     }
 
     @Override
-    public List<EquipmentModelStateHourlyEarnings> getEquipmentModelStateHourlyEarningsByModelId(UUID modelId) {
+    public List<EquipmentModelStateHourlyEarningsDTO> getEquipmentModelStateHourlyEarningsByModelId(UUID modelId) {
         equipmentModelService.getEquipModelById(modelId);
-        return equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByModelId(modelId);
+        List<EquipmentModelStateHourlyEarnings> equipmentModelStateHourlyEarningsByModelIdList = equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByModelId(modelId);
+        return equipmentModelStateHourlyEarningsByModelIdList.stream().map(EquipmentModelStateHourlyEarningsDTO::new).toList();
     }
 
     @Override
-    public List<EquipmentModelStateHourlyEarnings> getEquipmentModelStateHourlyEarningsByStateId(UUID stateId) {
+    public List<EquipmentModelStateHourlyEarningsDTO> getEquipmentModelStateHourlyEarningsByStateId(UUID stateId) {
         equipmentStateService.getEquipmentStateById(stateId);
-        return equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByStateId(stateId);
+        List<EquipmentModelStateHourlyEarnings> equipmentModelStateHourlyEarningsByStateIdList = equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByStateId(stateId);
+        return equipmentModelStateHourlyEarningsByStateIdList.stream().map(EquipmentModelStateHourlyEarningsDTO::new).toList();
     }
 
     @Override
-    public EquipmentModelStateHourlyEarnings getEquipmentModelStateHourlyEarningsByModelAndStateIds(UUID modelId, UUID stateId) {
+    public EquipmentModelStateHourlyEarningsDTO getEquipmentModelStateHourlyEarningsByModelAndStateIds(UUID modelId, UUID stateId) {
         equipmentModelService.getEquipModelById(modelId);
         equipmentStateService.getEquipmentStateById(stateId);
         EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarningsByModelAndStateIds = equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByModelAndStateIds(modelId, stateId);
-        return equipmentModelStateHourlyEarningsByModelAndStateIds;
+        return new EquipmentModelStateHourlyEarningsDTO(equipmentModelStateHourlyEarningsByModelAndStateIds);
     }
 
     @Override
-    public EquipmentModelStateHourlyEarnings createEquipmentModelStateHourlyEarnings(UUID modelId, UUID stateId, EquipmentModelStateHourlyEarningsForm value) {
+    public EquipmentModelStateHourlyEarningsDTO createEquipmentModelStateHourlyEarnings(UUID modelId, UUID stateId, EquipmentModelStateHourlyEarningsForm value) {
         EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = new EquipmentModelStateHourlyEarnings();
-        equipmentModelStateHourlyEarnings.setEquipmentModel(equipmentModelService.getEquipModelById(modelId));
-        equipmentModelStateHourlyEarnings.setEquipmentState(equipmentStateService.getEquipmentStateById(stateId));
+        equipmentModelStateHourlyEarnings.setEquipmentModel(equipmentModelRepository.findById(modelId).get());
+        equipmentModelStateHourlyEarnings.setEquipmentState(equipmentStateRepository.findById(stateId).get());
         equipmentModelStateHourlyEarnings.setValue(value.getValue());
-        equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
-        return equipmentModelStateHourlyEarnings;
+        EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarningsSaved = equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
+        return new EquipmentModelStateHourlyEarningsDTO(equipmentModelStateHourlyEarningsSaved);
     }
 
     @Override
-    public EquipmentModelStateHourlyEarnings updateEquipmentModelStateHourlyEarnings(UUID modelId, UUID stateId, EquipmentModelStateHourlyEarningsForm value) {
+    public EquipmentModelStateHourlyEarningsDTO updateEquipmentModelStateHourlyEarnings(UUID modelId, UUID stateId, EquipmentModelStateHourlyEarningsForm value) {
         equipmentModelService.getEquipModelById(modelId);
         equipmentStateService.getEquipmentStateById(stateId);
         EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByModelAndStateIds(modelId, stateId);
         equipmentModelStateHourlyEarnings.setValue(value.getValue());
-        equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
-        return equipmentModelStateHourlyEarnings;
+        EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarningsUpdated = equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
+        return new EquipmentModelStateHourlyEarningsDTO(equipmentModelStateHourlyEarningsUpdated);
     }
 
     @Override

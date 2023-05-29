@@ -70,10 +70,6 @@ public class EquipmentPositionHistory {
         this.lon = lon;
     }
 
-    public EquipmentPositionHistoryDTO equipmentPositionHistoryToDTO() {
-        return new EquipmentPositionHistoryDTO(equipment, date, lat, lon);
-    }
-
     @Override
     public String toString() {
         return "EquipmentPositionHistory{" +

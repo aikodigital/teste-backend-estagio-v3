@@ -54,10 +54,6 @@ public class Equipment {
         this.name = name;
     }
 
-    public EquipmentDTO equipmentToDTO() {
-        return new EquipmentDTO(id, equipmentModel, name);
-    }
-
     @Override
     public String toString() {
         return "Equipment{" +

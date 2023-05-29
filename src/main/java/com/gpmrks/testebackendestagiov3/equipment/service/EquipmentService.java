@@ -1,5 +1,6 @@
 package com.gpmrks.testebackendestagiov3.equipment.service;
 
+import com.gpmrks.testebackendestagiov3.equipment.dto.EquipmentDTO;
 import com.gpmrks.testebackendestagiov3.equipment.dto.EquipmentForm;
 import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 
@@ -8,15 +9,15 @@ import java.util.UUID;
 
 public interface EquipmentService {
 
-    List<Equipment> getAllEquipments();
+    List<EquipmentDTO> getAllEquipments();
 
-    List<Equipment> getAllEquipmentsByModelId(UUID modelId);
+    List<EquipmentDTO> getAllEquipmentsByModelId(UUID modelId);
 
-    Equipment getEquipmentById(UUID id);
+    EquipmentDTO getEquipmentById(UUID id);
 
-    Equipment createEquipment(EquipmentForm equipmentToCreate);
+    EquipmentDTO createEquipment(EquipmentForm equipmentToCreate);
 
-    Equipment updateEquipment(UUID id, EquipmentForm updatedEquipment);
+    EquipmentDTO updateEquipment(UUID id, EquipmentForm updatedEquipment);
 
     void deleteEquipment(UUID id);
 

@@ -1,5 +1,6 @@
 package com.gpmrks.testebackendestagiov3.equipment_state.service;
 
+import com.gpmrks.testebackendestagiov3.equipment_state.dto.EquipmentStateDTO;
 import com.gpmrks.testebackendestagiov3.equipment_state.dto.EquipmentStateForm;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 
@@ -8,13 +9,13 @@ import java.util.UUID;
 
 public interface EquipmentStateService {
 
-    List<EquipmentState> getAllEquipmentsStates();
+    List<EquipmentStateDTO> getAllEquipmentsStates();
 
-    EquipmentState getEquipmentStateById(UUID id);
+    EquipmentStateDTO getEquipmentStateById(UUID id);
 
-    EquipmentState createEquipmentState(EquipmentStateForm equipmentStateToCreate);
+    EquipmentStateDTO createEquipmentState(EquipmentStateForm equipmentStateToCreate);
 
-    EquipmentState updateEquipmentState(UUID id, EquipmentStateForm updatedEquipmentState);
+    EquipmentStateDTO updateEquipmentState(UUID id, EquipmentStateForm updatedEquipmentState);
 
     void deleteEquipmentState(UUID id);
 

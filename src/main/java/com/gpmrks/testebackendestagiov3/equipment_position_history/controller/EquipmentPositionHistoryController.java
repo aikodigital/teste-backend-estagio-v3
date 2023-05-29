@@ -32,44 +32,34 @@ public class EquipmentPositionHistoryController {
     @GetMapping
     @Operation(summary = "Lista o Histórico de Posições de Equipamentos", description = "Lista todos os históricos de Posições de Equipamentos")
     public ResponseEntity<List<EquipmentPositionHistoryDTO>> getAllEquipmentsPositionsHistories() {
-        List<EquipmentPositionHistory> equipmentPositionHistories = equipmentPositionHistoryService.getAllEquipmentsPositionHistories();
-        List<EquipmentPositionHistoryDTO> equipmentPositionHistoryDTOS = equipmentPositionHistories.stream()
-                .map(EquipmentPositionHistory::equipmentPositionHistoryToDTO)
-                .toList();
-        EquipmentPositionHistoryHateoas.toHateoasList(equipmentPositionHistoryDTOS);
-        return ResponseEntity.ok().body(equipmentPositionHistoryDTOS);
+        List<EquipmentPositionHistoryDTO> equipmentPositionHistoriesDTO = equipmentPositionHistoryService.getAllEquipmentsPositionHistories();
+        EquipmentPositionHistoryHateoas.toHateoasList(equipmentPositionHistoriesDTO);
+        return ResponseEntity.ok().body(equipmentPositionHistoriesDTO);
     }
 
     @GetMapping("/{equipmentId}")
     @Operation(summary = "Lista de Histórico de Posições de um determinado Equipamento", description = "Lista o histórico de Posições de um determinado Equipamento por seu ID")
     public ResponseEntity<List<EquipmentPositionHistoryDTO>> getEquipmentPositionHistoryByEquipmentId(@PathVariable UUID equipmentId) {
-        List<EquipmentPositionHistory> equipmentPositionHistories = equipmentPositionHistoryService.getEquipmentPositionHistoryByEquipId(equipmentId);
-        List<EquipmentPositionHistoryDTO> equipmentPositionHistoryDTOS = equipmentPositionHistories.stream()
-                .map(EquipmentPositionHistory::equipmentPositionHistoryToDTO)
-                .toList();
-        EquipmentPositionHistoryHateoas.toHateoasList(equipmentPositionHistoryDTOS);
-        return ResponseEntity.ok().body(equipmentPositionHistoryDTOS);
+        List<EquipmentPositionHistoryDTO> equipmentPositionHistoriesDTO = equipmentPositionHistoryService.getEquipmentPositionHistoryByEquipId(equipmentId);
+        EquipmentPositionHistoryHateoas.toHateoasList(equipmentPositionHistoriesDTO);
+        return ResponseEntity.ok().body(equipmentPositionHistoriesDTO);
     }
 
     @GetMapping("/date-range")
     @Operation(summary = "Lista de Histórico de Posições de Equipamentos de um determinado Período", description = "Lista o histórico de Posições de Equipamentos em um determinado período, sendo necessário passar data inicial e data final, padrão dd/MM/yyyy HH:mm:ss")
     public ResponseEntity<List<EquipmentPositionHistoryDTO>> getEquipmentPositionHistoryByDateRange(@RequestBody EquipmentHistoryDateForm equipmentHistoryDateForm) {
-        List<EquipmentPositionHistory> equipmentPositionHistories = equipmentPositionHistoryService.getEquipmentPositionHistoryByDate(equipmentHistoryDateForm);
-        List<EquipmentPositionHistoryDTO> equipmentPositionHistoryDTOS = equipmentPositionHistories.stream()
-                .map(EquipmentPositionHistory::equipmentPositionHistoryToDTO)
-                .toList();
-        EquipmentPositionHistoryHateoas.toHateoasList(equipmentPositionHistoryDTOS);
-        return ResponseEntity.ok().body(equipmentPositionHistoryDTOS);
+        List<EquipmentPositionHistoryDTO> equipmentPositionHistoriesDTO = equipmentPositionHistoryService.getEquipmentPositionHistoryByDate(equipmentHistoryDateForm);
+        EquipmentPositionHistoryHateoas.toHateoasList(equipmentPositionHistoriesDTO);
+        return ResponseEntity.ok().body(equipmentPositionHistoriesDTO);
     }
 
     @PostMapping("/{equipmentId}")
     @Operation(summary = "Registrar a Posição de determinado Equipamento no Histórico", description = "Registra o posicionamento de determinado Equipamento por seu ID")
     public ResponseEntity<EquipmentPositionHistoryDTO> registerEquipmentPosition(@PathVariable UUID equipmentId, @RequestBody EquipmentPositionForm equipmentPositionToCreate, UriComponentsBuilder uriComponentsBuilder) {
-        EquipmentPositionHistory equipmentPositionHistory = equipmentPositionHistoryService.registerEquipmentPosition(equipmentId, equipmentPositionToCreate);
-        EquipmentPositionHistoryDTO equipmentStateHistoryDTO = equipmentPositionHistory.equipmentPositionHistoryToDTO();
+        EquipmentPositionHistoryDTO equipmentPositionHistoryDTO = equipmentPositionHistoryService.registerEquipmentPosition(equipmentId, equipmentPositionToCreate);
         URI uri = uriComponentsBuilder.path("/equipments-positions-histories/{equipmentId}").buildAndExpand(equipmentId).toUri();
-        EquipmentPositionHistoryHateoas.toHateoas(equipmentId, equipmentStateHistoryDTO);
-        return ResponseEntity.created(uri).body(equipmentStateHistoryDTO);
+        EquipmentPositionHistoryHateoas.toHateoas(equipmentId, equipmentPositionHistoryDTO);
+        return ResponseEntity.created(uri).body(equipmentPositionHistoryDTO);
     }
 
     @DeleteMapping("/{equipmentId}")
