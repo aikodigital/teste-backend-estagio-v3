@@ -1,7 +1,10 @@
 package com.gpmrks.testebackendestagiov3.equipment_state_history.service.impl;
 
+import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 import com.gpmrks.testebackendestagiov3.equipment.repository.EquipmentRepository;
 import com.gpmrks.testebackendestagiov3.equipment.service.EquipmentService;
+import com.gpmrks.testebackendestagiov3.equipment_model.exception.EquipmentModelNotFoundException;
+import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 import com.gpmrks.testebackendestagiov3.equipment_state.repository.EquipmentStateRepository;
 import com.gpmrks.testebackendestagiov3.equipment_state.service.EquipmentStateService;
 import com.gpmrks.testebackendestagiov3.equipment_state_history.dto.EquipmentStateHistoryDTO;
@@ -70,9 +73,14 @@ public class EquipmentStateHistoryServiceImpl implements EquipmentStateHistorySe
     @Override
     public EquipmentStateHistoryDTO registerEquipmentState(UUID equipmentId, UUID stateId) {
         EquipmentStateHistory equipmentStateHistory = new EquipmentStateHistory();
-        equipmentStateHistory.setEquipment(equipmentRepository.findById(equipmentId).get());
-        equipmentStateHistory.setEquipmentState(equipmentStateRepository.findById(stateId).get());
+        Equipment equipment = returnEquipmentIfExistsOrElseThrowEquipmentNotFound(equipmentId);
+        EquipmentState equipmentState = returnEquipmentStateIfExistsOrElseThrowStateNotFound(stateId);
+
+        equipmentStateHistory.setEquipment(equipment);
+        equipmentStateHistory.setEquipmentState(equipmentState);
+
         EquipmentStateHistory equipmentStateHistoryRegistered = equipmentStateHistoryRepository.save(equipmentStateHistory);
+
         return new EquipmentStateHistoryDTO(equipmentStateHistoryRegistered);
     }
 
@@ -83,4 +91,11 @@ public class EquipmentStateHistoryServiceImpl implements EquipmentStateHistorySe
         equipmentStateHistoryRepository.deleteAll(equipmentStateHistoriesByEquipAndStateIds);
     }
 
+    private Equipment returnEquipmentIfExistsOrElseThrowEquipmentNotFound(UUID id) {
+        return equipmentRepository.findById(id).orElseThrow(() -> new EquipmentModelNotFoundException(id));
+    }
+
+    private EquipmentState returnEquipmentStateIfExistsOrElseThrowStateNotFound(UUID stateId) {
+        return equipmentStateRepository.findById(stateId).orElseThrow(() -> new EquipmentModelNotFoundException(stateId));
+    }
 }

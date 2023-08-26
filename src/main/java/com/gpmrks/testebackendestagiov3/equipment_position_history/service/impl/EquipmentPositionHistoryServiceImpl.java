@@ -1,6 +1,7 @@
 package com.gpmrks.testebackendestagiov3.equipment_position_history.service.impl;
 
 import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
+import com.gpmrks.testebackendestagiov3.equipment.exception.EquipmentNotFoundException;
 import com.gpmrks.testebackendestagiov3.equipment.repository.EquipmentRepository;
 import com.gpmrks.testebackendestagiov3.equipment.service.EquipmentService;
 import com.gpmrks.testebackendestagiov3.equipment_model.service.EquipmentModelService;
@@ -10,7 +11,6 @@ import com.gpmrks.testebackendestagiov3.equipment_position_history.entity.Equipm
 import com.gpmrks.testebackendestagiov3.equipment_position_history.exception.InvalidEquipmentPositionException;
 import com.gpmrks.testebackendestagiov3.equipment_position_history.repository.EquipmentPositionHistoryRepository;
 import com.gpmrks.testebackendestagiov3.equipment_position_history.service.EquipmentPositionHistoryService;
-import com.gpmrks.testebackendestagiov3.equipment_state_history.entity.EquipmentStateHistory;
 import com.gpmrks.testebackendestagiov3.util.EquipmentHistoryDateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +27,12 @@ public class EquipmentPositionHistoryServiceImpl implements EquipmentPositionHis
 
     private EquipmentService equipmentService;
 
-    private EquipmentModelService equipmentModelService;
 
     @Autowired
-    public EquipmentPositionHistoryServiceImpl(EquipmentPositionHistoryRepository equipmentPositionHistoryRepository, EquipmentRepository equipmentRepository, EquipmentService equipmentService, EquipmentModelService equipmentModelService) {
+    public EquipmentPositionHistoryServiceImpl(EquipmentPositionHistoryRepository equipmentPositionHistoryRepository, EquipmentRepository equipmentRepository, EquipmentService equipmentService) {
         this.equipmentPositionHistoryRepository = equipmentPositionHistoryRepository;
         this.equipmentRepository = equipmentRepository;
         this.equipmentService = equipmentService;
-        this.equipmentModelService = equipmentModelService;
     }
 
     @Autowired
@@ -61,13 +59,18 @@ public class EquipmentPositionHistoryServiceImpl implements EquipmentPositionHis
 
     @Override
     public EquipmentPositionHistoryDTO registerEquipmentPosition(UUID equipmentId, EquipmentPositionForm equipmentPositionToCreate) {
-        Equipment equipment = equipmentRepository.findById(equipmentId).get();
+        Equipment equipment = equipmentRepository.findById(equipmentId).orElseThrow(() -> new EquipmentNotFoundException(equipmentId));
+
         validatePosition(equipmentPositionToCreate);
+
         EquipmentPositionHistory equipmentPositionHistory = new EquipmentPositionHistory();
+
         equipmentPositionHistory.setEquipment(equipment);
         equipmentPositionHistory.setLat(equipmentPositionToCreate.getLat());
         equipmentPositionHistory.setLon(equipmentPositionToCreate.getLon());
+
         EquipmentPositionHistory equipmentPositionHistorySaved = equipmentPositionHistoryRepository.save(equipmentPositionHistory);
+
         return new EquipmentPositionHistoryDTO(equipmentPositionHistorySaved);
     }
 

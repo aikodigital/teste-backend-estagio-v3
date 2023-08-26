@@ -40,7 +40,7 @@ services:
     command: [ "sh", "-c", "PGPASSWORD=$$POSTGRES_PASSWORD pg_restore --verbose --clean --no-acl --no-owner -h postgresDB -U postgres -v -d test /docker-entrypoint-initdb.d/data.backup" ]
 
   teste-backend-estagio-v3:
-    image: gpmrks/teste-backend-estagio-v3:5.0.0
+    image: gpmrks/teste-backend-estagio-v3:6.0.0
     labels:
       description: "Teste Backend Estágio V3"
       service: "teste-backend-estagio-v3"

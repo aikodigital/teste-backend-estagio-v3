@@ -2,11 +2,11 @@ package com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.c
 
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.dto.EquipmentModelStateHourlyEarningsDTO;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.dto.EquipmentModelStateHourlyEarningsForm;
-import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.entity.EquipmentModelStateHourlyEarnings;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.hateoas.EquipmentModelStateHourlyEarningsHateoas;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.service.EquipmentModelStateHourlyEarningsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +62,7 @@ public class EquipmentModelStateHourlyEarningsController {
 
     @PostMapping("{modelId}/{stateId}")
     @Operation(summary = "Criação de Ganho por Hora de Equipamento por Modelo e Estado de Funcionamento", description = "Cria um novo ganho por hora do Equipamento por seu modelo e estado de funcionamento, por ID do Modelo e ID do Estado de Funcionamento")
-    public ResponseEntity<EquipmentModelStateHourlyEarningsDTO> createEquipmentModelStateHourlyEarnings(@PathVariable UUID modelId, @PathVariable UUID stateId, @RequestBody EquipmentModelStateHourlyEarningsForm value, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentModelStateHourlyEarningsDTO> createEquipmentModelStateHourlyEarnings(@PathVariable UUID modelId, @PathVariable UUID stateId, @RequestBody @Valid EquipmentModelStateHourlyEarningsForm value, UriComponentsBuilder uriComponentsBuilder) {
         EquipmentModelStateHourlyEarningsDTO equipmentModelStateHourlyEarningsDTO = equipmentModelStateHourlyEarningsService.createEquipmentModelStateHourlyEarnings(modelId, stateId, value);
         URI uri = uriComponentsBuilder.path("equipments-models-states-hourly-earnings/{modelId}/{stateId}").buildAndExpand(equipmentModelStateHourlyEarningsDTO.getEquipmentModel().getId(), equipmentModelStateHourlyEarningsDTO.getEquipmentState().getId()).toUri();
         EquipmentModelStateHourlyEarningsHateoas.toHateoas(modelId, stateId, equipmentModelStateHourlyEarningsDTO);

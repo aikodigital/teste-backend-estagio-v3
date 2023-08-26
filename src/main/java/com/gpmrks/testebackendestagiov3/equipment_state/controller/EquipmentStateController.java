@@ -2,11 +2,11 @@ package com.gpmrks.testebackendestagiov3.equipment_state.controller;
 
 import com.gpmrks.testebackendestagiov3.equipment_state.dto.EquipmentStateDTO;
 import com.gpmrks.testebackendestagiov3.equipment_state.dto.EquipmentStateForm;
-import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
 import com.gpmrks.testebackendestagiov3.equipment_state.hateoas.EquipmentStateHateoas;
 import com.gpmrks.testebackendestagiov3.equipment_state.service.EquipmentStateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +46,7 @@ public class EquipmentStateController {
 
     @PostMapping
     @Operation(summary = "Criação de Estado de Funcionamento de Equipamentos", description = "Cria um novo Estado de Funcionamento dos Equipamentos")
-    public ResponseEntity<EquipmentStateDTO> createEquipmentState(@RequestBody EquipmentStateForm equipmentStateToCreate, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentStateDTO> createEquipmentState(@RequestBody @Valid EquipmentStateForm equipmentStateToCreate, UriComponentsBuilder uriComponentsBuilder) {
         EquipmentStateDTO equipmentStateDTO = equipmentStateService.createEquipmentState(equipmentStateToCreate);
         URI uri = uriComponentsBuilder.path("/equipments-states/{id}").buildAndExpand(equipmentStateDTO.getId()).toUri();
         EquipmentStateHateoas.toHateoas(equipmentStateDTO.getId(), equipmentStateDTO);

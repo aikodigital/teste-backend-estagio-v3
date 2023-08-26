@@ -1,7 +1,5 @@
 package com.gpmrks.testebackendestagiov3.equipment_model.service.impl;
 
-import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
-import com.gpmrks.testebackendestagiov3.equipment.exception.EquipmentNotFoundException;
 import com.gpmrks.testebackendestagiov3.equipment_model.dto.EquipmentModelDTO;
 import com.gpmrks.testebackendestagiov3.equipment_model.dto.EquipmentModelForm;
 import com.gpmrks.testebackendestagiov3.equipment_model.entity.EquipmentModel;
@@ -14,7 +12,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,7 +32,7 @@ public class EquipmentModelServiceImpl implements EquipmentModelService {
 
     @Override
     public EquipmentModelDTO getEquipModelById(UUID id) {
-        EquipmentModel equipmentModel = checkIfEquipmentModelExists(id);
+        EquipmentModel equipmentModel = returnEquipmentModelOrElseThrowModelNotFound(id);
         return new EquipmentModelDTO(equipmentModel);
     }
 
@@ -49,7 +46,7 @@ public class EquipmentModelServiceImpl implements EquipmentModelService {
 
     @Override
     public EquipmentModelDTO updateEquipmentModel(UUID id, EquipmentModelForm updatedEquipmentModel) {
-        EquipmentModel equipmentModel = checkIfEquipmentModelExists(id);
+        EquipmentModel equipmentModel = returnEquipmentModelOrElseThrowModelNotFound(id);
         equipmentModel.setName(updatedEquipmentModel.getName());
         EquipmentModel equipmentModelUpdated = equipmentModelRepository.save(equipmentModel);
         return new EquipmentModelDTO(equipmentModelUpdated);
@@ -58,23 +55,14 @@ public class EquipmentModelServiceImpl implements EquipmentModelService {
     @Override
     public void deleteEquipmentModel(UUID id) {
         try {
-        EquipmentModel equipmentModel = checkIfEquipmentModelExists(id);
+        returnEquipmentModelOrElseThrowModelNotFound(id);
         equipmentModelRepository.deleteById(id);
         } catch (DataIntegrityViolationException ex) {
             throw new CannotDeleteEquipmentModelException(id);
         }
     }
 
-    private EquipmentModel checkIfEquipmentModelExists(UUID id){
-        Optional<EquipmentModel> optionalEquipmentModel = equipmentModelRepository.findById(id);
-        final EquipmentModel equipmentModel;
-
-        if (optionalEquipmentModel.isPresent()) {
-            equipmentModel = optionalEquipmentModel.get();
-        } else {
-            throw new EquipmentModelNotFoundException(id);
-        }
-
-        return equipmentModel;
+    private EquipmentModel returnEquipmentModelOrElseThrowModelNotFound(UUID id){
+        return equipmentModelRepository.findById(id).orElseThrow(() -> new EquipmentModelNotFoundException(id));
     }
 }

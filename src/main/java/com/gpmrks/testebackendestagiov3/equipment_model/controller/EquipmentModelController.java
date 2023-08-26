@@ -2,11 +2,11 @@ package com.gpmrks.testebackendestagiov3.equipment_model.controller;
 
 import com.gpmrks.testebackendestagiov3.equipment_model.dto.EquipmentModelDTO;
 import com.gpmrks.testebackendestagiov3.equipment_model.dto.EquipmentModelForm;
-import com.gpmrks.testebackendestagiov3.equipment_model.entity.EquipmentModel;
 import com.gpmrks.testebackendestagiov3.equipment_model.hateoas.EquipmentModelHateoas;
 import com.gpmrks.testebackendestagiov3.equipment_model.service.EquipmentModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +46,7 @@ public class EquipmentModelController {
 
     @PostMapping
     @Operation(summary = "Criação de Modelo de Equipamento", description = "Cria um novo Modelo de Equipamento sendo necessário passar um Nome de Modelo")
-    public ResponseEntity<EquipmentModelDTO> createEquipmentModel(@RequestBody EquipmentModelForm equipmentModelToSave, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentModelDTO> createEquipmentModel(@RequestBody @Valid EquipmentModelForm equipmentModelToSave, UriComponentsBuilder uriComponentsBuilder) {
         EquipmentModelDTO equipmentModelDTO = equipmentModelService.createEquipmentModel(equipmentModelToSave);
         URI uri = uriComponentsBuilder.path("/equipments-models/{id}").buildAndExpand(equipmentModelDTO.getId()).toUri();
         EquipmentModelHateoas.toHateoas(equipmentModelDTO.getId(), equipmentModelDTO);
@@ -55,7 +55,7 @@ public class EquipmentModelController {
 
     @PutMapping("{id}")
     @Operation(summary = "Atualiza Modelo de Equipamento", description = "Atualiza determinado Modelo de Equipamento pelo ID do Modelo")
-    public ResponseEntity<EquipmentModelDTO> updateEquipment(@PathVariable UUID id, @RequestBody EquipmentModelForm updatedEquipmentModel) {
+    public ResponseEntity<EquipmentModelDTO> updateEquipment(@PathVariable UUID id, @RequestBody @Valid EquipmentModelForm updatedEquipmentModel) {
         EquipmentModelDTO equipmentModelDTO = equipmentModelService.updateEquipmentModel(id, updatedEquipmentModel);
         EquipmentModelHateoas.toHateoas(equipmentModelDTO.getId(), equipmentModelDTO);
         return ResponseEntity.ok().body(equipmentModelDTO);

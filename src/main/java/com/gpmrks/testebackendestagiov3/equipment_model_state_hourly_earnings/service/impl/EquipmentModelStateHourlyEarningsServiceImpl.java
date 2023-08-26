@@ -1,5 +1,7 @@
 package com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.service.impl;
 
+import com.gpmrks.testebackendestagiov3.equipment_model.entity.EquipmentModel;
+import com.gpmrks.testebackendestagiov3.equipment_model.exception.EquipmentModelNotFoundException;
 import com.gpmrks.testebackendestagiov3.equipment_model.repository.EquipmentModelRepository;
 import com.gpmrks.testebackendestagiov3.equipment_model.service.EquipmentModelService;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.dto.EquipmentModelStateHourlyEarningsDTO;
@@ -8,6 +10,7 @@ import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.en
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.repository.EquipmentModelStateHourlyEarningsRepository;
 import com.gpmrks.testebackendestagiov3.equipment_model_state_hourly_earnings.service.EquipmentModelStateHourlyEarningsService;
 import com.gpmrks.testebackendestagiov3.equipment_state.entity.EquipmentState;
+import com.gpmrks.testebackendestagiov3.equipment_state.exception.EquipmentStateNotFoundException;
 import com.gpmrks.testebackendestagiov3.equipment_state.repository.EquipmentStateRepository;
 import com.gpmrks.testebackendestagiov3.equipment_state.service.EquipmentStateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,10 +67,14 @@ public class EquipmentModelStateHourlyEarningsServiceImpl implements EquipmentMo
 
     @Override
     public EquipmentModelStateHourlyEarningsDTO createEquipmentModelStateHourlyEarnings(UUID modelId, UUID stateId, EquipmentModelStateHourlyEarningsForm value) {
+        EquipmentModel equipmentModel = returnEquipmentModelIfExistsOrElseThrowModelNotFound(modelId);
+        EquipmentState equipmentState = returnEquipmentStateIfExistsOrElseThrowStateNotFound(stateId);
+
         EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarnings = new EquipmentModelStateHourlyEarnings();
-        equipmentModelStateHourlyEarnings.setEquipmentModel(equipmentModelRepository.findById(modelId).get());
-        equipmentModelStateHourlyEarnings.setEquipmentState(equipmentStateRepository.findById(stateId).get());
+        equipmentModelStateHourlyEarnings.setEquipmentModel(equipmentModel);
+        equipmentModelStateHourlyEarnings.setEquipmentState(equipmentState);
         equipmentModelStateHourlyEarnings.setValue(value.getValue());
+
         EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarningsSaved = equipmentModelStateHourlyEarningsRepository.save(equipmentModelStateHourlyEarnings);
         return new EquipmentModelStateHourlyEarningsDTO(equipmentModelStateHourlyEarningsSaved);
     }
@@ -86,5 +93,13 @@ public class EquipmentModelStateHourlyEarningsServiceImpl implements EquipmentMo
     public void deleteEquipmentModelStateHourlyEarnings(UUID modelId, UUID stateId) {
         EquipmentModelStateHourlyEarnings equipmentModelStateHourlyEarningsByModelAndStateIds = equipmentModelStateHourlyEarningsRepository.getEquipmentModelStateHourlyEarningsByModelAndStateIds(modelId, stateId);
         equipmentModelStateHourlyEarningsRepository.delete(equipmentModelStateHourlyEarningsByModelAndStateIds);
+    }
+
+    private EquipmentModel returnEquipmentModelIfExistsOrElseThrowModelNotFound(UUID modelId) {
+        return equipmentModelRepository.findById(modelId).orElseThrow(() -> new EquipmentModelNotFoundException(modelId));
+    }
+
+    private EquipmentState returnEquipmentStateIfExistsOrElseThrowStateNotFound(UUID stateId) {
+        return equipmentStateRepository.findById(stateId).orElseThrow(() -> new EquipmentStateNotFoundException(stateId));
     }
 }

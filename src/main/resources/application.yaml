@@ -15,8 +15,8 @@ springdoc:
     use-root-path: true
 
 api:
-  description: API para Gerenciamento de Equipamentos - Teste Tecnico para empresa Aiko.
-  version: v5
+  description: API de Controle de Equipamentos - API desenvolvida para o Teste Tecnico para empresa Aiko.
+  version: v6
   server:
     url: http://localhost:8080
 

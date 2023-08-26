@@ -2,12 +2,12 @@ package com.gpmrks.testebackendestagiov3.equipment_position_history.controller;
 
 import com.gpmrks.testebackendestagiov3.equipment_position_history.dto.EquipmentPositionForm;
 import com.gpmrks.testebackendestagiov3.equipment_position_history.dto.EquipmentPositionHistoryDTO;
-import com.gpmrks.testebackendestagiov3.equipment_position_history.entity.EquipmentPositionHistory;
 import com.gpmrks.testebackendestagiov3.equipment_position_history.hateoas.EquipmentPositionHistoryHateoas;
 import com.gpmrks.testebackendestagiov3.equipment_position_history.service.EquipmentPositionHistoryService;
 import com.gpmrks.testebackendestagiov3.util.EquipmentHistoryDateForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +55,7 @@ public class EquipmentPositionHistoryController {
 
     @PostMapping("/{equipmentId}")
     @Operation(summary = "Registrar a Posição de determinado Equipamento no Histórico", description = "Registra o posicionamento de determinado Equipamento por seu ID")
-    public ResponseEntity<EquipmentPositionHistoryDTO> registerEquipmentPosition(@PathVariable UUID equipmentId, @RequestBody EquipmentPositionForm equipmentPositionToCreate, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentPositionHistoryDTO> registerEquipmentPosition(@PathVariable UUID equipmentId, @RequestBody @Valid EquipmentPositionForm equipmentPositionToCreate, UriComponentsBuilder uriComponentsBuilder) {
         EquipmentPositionHistoryDTO equipmentPositionHistoryDTO = equipmentPositionHistoryService.registerEquipmentPosition(equipmentId, equipmentPositionToCreate);
         URI uri = uriComponentsBuilder.path("/equipments-positions-histories/{equipmentId}").buildAndExpand(equipmentId).toUri();
         EquipmentPositionHistoryHateoas.toHateoas(equipmentId, equipmentPositionHistoryDTO);

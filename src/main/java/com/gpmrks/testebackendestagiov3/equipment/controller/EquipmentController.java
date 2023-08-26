@@ -2,12 +2,12 @@ package com.gpmrks.testebackendestagiov3.equipment.controller;
 
 import com.gpmrks.testebackendestagiov3.equipment.dto.EquipmentDTO;
 import com.gpmrks.testebackendestagiov3.equipment.dto.EquipmentForm;
-import com.gpmrks.testebackendestagiov3.equipment.entity.Equipment;
 import com.gpmrks.testebackendestagiov3.equipment.hateoas.EquipmentHateoas;
 import com.gpmrks.testebackendestagiov3.equipment.service.EquipmentService;
 import com.gpmrks.testebackendestagiov3.equipment_model.service.EquipmentModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +24,9 @@ public class EquipmentController {
 
     private EquipmentService equipmentService;
 
-    private EquipmentModelService equipmentModelService;
-
     @Autowired
-    public EquipmentController(EquipmentService equipmentService, EquipmentModelService equipmentModelService) {
+    public EquipmentController(EquipmentService equipmentService) {
         this.equipmentService = equipmentService;
-        this.equipmentModelService = equipmentModelService;
     }
 
     @GetMapping
@@ -58,7 +55,7 @@ public class EquipmentController {
 
     @PostMapping
     @Operation(summary = "Criação de Equipamento", description = "Cria um novo Equipamento, sendo necessário o nome do equipamento e o ID do Modelo")
-    public ResponseEntity<EquipmentDTO> createEquipment(@RequestBody EquipmentForm equipmentToSave, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentDTO> createEquipment(@RequestBody @Valid EquipmentForm equipmentToSave, UriComponentsBuilder uriComponentsBuilder) {
         EquipmentDTO equipmentDTO = equipmentService.createEquipment(equipmentToSave);
         URI uri = uriComponentsBuilder.path("/equipments/{id}").buildAndExpand(equipmentDTO.getId()).toUri();
         EquipmentHateoas.toHateoas(equipmentDTO.getId(), equipmentDTO);

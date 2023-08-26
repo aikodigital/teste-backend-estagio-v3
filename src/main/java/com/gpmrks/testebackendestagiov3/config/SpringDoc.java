@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @io.swagger.v3.oas.annotations.info.Info(
-                title = "Teste Estágio Backend V3",
+                title = "API para Gestão de Equipamentos",
                 version = "${api.version}",
                 contact = @Contact(
                         name = "Guilherme M.", email = "guilhermepereiramarques@hotmail.com", url = "https://www.linkedin.com/in/guilherme-p-marques/"
