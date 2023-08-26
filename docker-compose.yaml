@@ -1,0 +1,50 @@
+version: '3.9'
+
+volumes:
+  data:
+networks:
+  teste-backend-v3:
+
+services:
+  postgresDB:
+    image: gpmrks/testebev3-db
+    labels:
+      description: "Postgresql Database"
+      service: "postgresql"
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    expose:
+      - "5432:5432"
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      timeout: 360s
+      retries: 5
+    command: ["postgres"]
+
+  restore:
+    image: postgres
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    depends_on:
+      postgresDB:
+        condition: service_healthy
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d/
+    command: [ "sh", "-c", "PGPASSWORD=$$POSTGRES_PASSWORD pg_restore --verbose --clean --no-acl --no-owner -h postgresDB -U postgres -v -d test /docker-entrypoint-initdb.d/data.backup" ]
+
+  teste-backend-estagio-v3:
+    image: gpmrks/teste-backend-estagio-v3:6.0.0
+    labels:
+      description: "Teste Backend Estágio V3"
+      service: "teste-backend-estagio-v3"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - restore
