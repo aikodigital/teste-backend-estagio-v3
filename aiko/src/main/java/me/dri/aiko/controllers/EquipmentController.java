@@ -2,27 +2,33 @@ package me.dri.aiko.controllers;
 
 
 import me.dri.aiko.entities.Equipment;
-import me.dri.aiko.repositories.EquipmentRepository;
+import me.dri.aiko.entities.dto.EquipmentInputDTO;
+import me.dri.aiko.services.interfaces.EquipmentService;
+import me.dri.aiko.services.EquipmentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/equipments")
 public class EquipmentController {
 
-
-    private final EquipmentRepository equipmentRepository;
+    private final EquipmentService service;
 
     @Autowired
-    public EquipmentController(EquipmentRepository equipmentRepository) {
-        this.equipmentRepository = equipmentRepository;
+    public EquipmentController(EquipmentServiceImpl service) {
+        this.service = service;
     }
     @GetMapping
     public List<Equipment> findAll() {
-        return this.equipmentRepository.findAll();
+        return this.service.findAll();
     }
+    @PostMapping
+    public ResponseEntity<UUID> create(@RequestBody EquipmentInputDTO equipmentInputDTO) {
+        return  ResponseEntity.ok(this.service.createEquipment(equipmentInputDTO));
+    }
+
 }

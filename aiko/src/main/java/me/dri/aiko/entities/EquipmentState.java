@@ -1,33 +1,26 @@
 package me.dri.aiko.entities;
 
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "equipment")
+@Table (name = "equipment_state")
 @Data
-@AllArgsConstructor
-public class Equipment {
+public class EquipmentState {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-
-    @ManyToOne
-    @JoinColumn(name = "equipment_model_id")
-    private EquipmentModel model;
-
     private String name;
-
-    public Equipment() {
-
-    }
+    private String color;
 
 
 }
