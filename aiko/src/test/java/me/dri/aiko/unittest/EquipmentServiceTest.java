@@ -44,6 +44,5 @@ public class EquipmentServiceTest {
         this.service.createEquipment(inputDTO);
         verify(this.modelsRepository, times(1)).findByName("test");
         verify(this.equipmentRepository, times(1)).save(mockedEquipment);
-
     }
 }

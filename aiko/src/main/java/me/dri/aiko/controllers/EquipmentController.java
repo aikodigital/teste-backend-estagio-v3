@@ -6,6 +6,7 @@ import me.dri.aiko.entities.dto.EquipmentInputDTO;
 import me.dri.aiko.services.interfaces.EquipmentService;
 import me.dri.aiko.services.EquipmentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,12 @@ public class EquipmentController {
     @PostMapping
     public ResponseEntity<UUID> create(@RequestBody EquipmentInputDTO equipmentInputDTO) {
         return  ResponseEntity.ok(this.service.createEquipment(equipmentInputDTO));
+    }
+
+    @DeleteMapping(path = "/{nameEquipment}")
+    public ResponseEntity deleteByName(@PathVariable String nameEquipment) {
+        this.service.deleteEquipmentByName(nameEquipment);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

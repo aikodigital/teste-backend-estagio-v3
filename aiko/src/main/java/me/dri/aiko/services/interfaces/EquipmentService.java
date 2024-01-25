@@ -9,4 +9,7 @@ import java.util.UUID;
 public interface EquipmentService {
     List<Equipment> findAll();
     UUID createEquipment(EquipmentInputDTO equipmentInputDTO);
+    void deleteEquipmentByName(String nameEquipment);
+    void deleteEquipmentById(String idEquipment);
+
 }

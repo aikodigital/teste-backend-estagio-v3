@@ -4,6 +4,7 @@ package me.dri.aiko.services;
 import me.dri.aiko.entities.Equipment;
 import me.dri.aiko.entities.EquipmentModel;
 import me.dri.aiko.entities.dto.EquipmentInputDTO;
+import me.dri.aiko.exception.NotFoundEquipment;
 import me.dri.aiko.exception.NotFoundMEquipmentModel;
 import me.dri.aiko.repositories.EquipmentModelsRepository;
 import me.dri.aiko.repositories.EquipmentRepository;
@@ -32,9 +33,24 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public UUID createEquipment(EquipmentInputDTO equipmentInputDTO) {
-        EquipmentModel model = this.equipmentModelsRepository.findByName(equipmentInputDTO.modelName())
-                .orElseThrow(() -> new NotFoundMEquipmentModel("The model: " + equipmentInputDTO.modelName() + " Not found!!"));
+        EquipmentModel model = this.checkIfModelOfEquipmentExistAndReturn(equipmentInputDTO.modelName());
         Equipment newEquipment = new Equipment(null, model, equipmentInputDTO.equipmentName());
         return this.repository.save(newEquipment).getId();
+    }
+
+    @Override
+    public void deleteEquipmentByName(String nameEquipment) {
+        Equipment equipment = this.repository.findByName(nameEquipment).orElseThrow(() -> new NotFoundEquipment("Not found equipment!!!"));
+        this.repository.delete(equipment);
+    }
+
+    @Override
+    public void deleteEquipmentById(String idEquipment) {
+
+    }
+
+    private EquipmentModel checkIfModelOfEquipmentExistAndReturn(String nameModelOfEquipment) {
+        return this.equipmentModelsRepository.findByName(nameModelOfEquipment)
+                .orElseThrow(() -> new NotFoundMEquipmentModel("The model: " + nameModelOfEquipment + " Not found!!"));
     }
 }
