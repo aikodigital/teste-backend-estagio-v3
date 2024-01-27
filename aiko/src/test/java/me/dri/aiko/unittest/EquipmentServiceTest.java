@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
@@ -36,13 +37,11 @@ public class EquipmentServiceTest {
     }
     @Test
     public void testCreateEquipment() {
-        EquipmentModel mockedModel = mock(EquipmentModel.class);
-        Equipment mockedEquipment = mock(Equipment.class);
-        EquipmentInputDTO inputDTO = new EquipmentInputDTO("test", "Diego");
-        when(this.modelsRepository.findByName("test")).thenReturn(Optional.of(mockedModel));
-        when(this.equipmentRepository.save(mockedEquipment)).thenReturn(mockedEquipment);
-        this.service.createEquipment(inputDTO);
-        verify(this.modelsRepository, times(1)).findByName("test");
+        EquipmentModel mockedModel = new EquipmentModel(UUID.randomUUID(), "testModel");
+        Equipment mockedEquipment = new Equipment(UUID.randomUUID(), mockedModel, "DiegoEquipment");
+        when(this.modelsRepository.findByName(any())).thenReturn(Optional.of(mockedModel));
+        this.service.createEquipment(new EquipmentInputDTO(mockedModel.getName(), mockedEquipment.getName()));
+        verify(this.modelsRepository, times(1)).findByName(mockedModel.getName());
         verify(this.equipmentRepository, times(1)).save(mockedEquipment);
     }
 }
