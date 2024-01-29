@@ -6,6 +6,7 @@ import me.dri.aiko.entities.EquipmentModel;
 import me.dri.aiko.entities.dto.EquipmentInputDTO;
 import me.dri.aiko.entities.dto.EquipmentResponseDTO;
 import me.dri.aiko.entities.dto.EquipmentUpdateDTO;
+import me.dri.aiko.exception.InvalidFormatEquipmentInput;
 import me.dri.aiko.exception.NotFoundEquipment;
 import me.dri.aiko.exception.NotFoundMEquipmentModel;
 import me.dri.aiko.repositories.EquipmentModelsRepository;
@@ -29,8 +30,8 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public List<Equipment> findAll() {
-        return this.repository.findAll();
+    public List<EquipmentResponseDTO> findAll() {
+        return this.repository.findAll().stream().map(e -> new EquipmentResponseDTO(e.getId().toString(), e.getName(), e.getModel().getName())).toList();
     }
 
     @Override
@@ -48,6 +49,9 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public UUID createEquipment(EquipmentInputDTO equipmentInputDTO) {
         EquipmentModel model = this.checkIfModelOfEquipmentExistAndReturn(equipmentInputDTO.modelName());
+        if (equipmentInputDTO.equipmentName().isBlank() || equipmentInputDTO.modelName().isBlank()) {
+            throw new InvalidFormatEquipmentInput("Invalid format name equipament");
+        }
         Equipment newEquipment = new Equipment(null, model, equipmentInputDTO.equipmentName());
         return this.repository.save(newEquipment).getId();
     }
@@ -67,20 +71,18 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public UUID updateEquipmentByName(String nameEquipment, EquipmentUpdateDTO equipmentUpdateDTO) {
         Equipment equipment = this.repository.findByName(nameEquipment).orElseThrow(() -> new NotFoundEquipment("Not found equipment"));
-        EquipmentModel equipmentModel = this.checkIfModelOfEquipmentExistAndReturn(equipmentUpdateDTO.nameModelEquipment());
+        EquipmentModel equipmentModel = this.checkIfModelOfEquipmentExistAndReturn(equipmentUpdateDTO.modelName());
         equipment.setName(equipmentUpdateDTO.nameEquipment());
         equipment.setModel(equipmentModel);
-        this.repository.save(equipment);
         return this.repository.save(equipment).getId();
     }
 
     @Override
     public UUID updateEquipmentById(String idEquipment, EquipmentUpdateDTO equipmentUpdateDTO) {
         Equipment equipment = this.repository.findById(UUID.fromString(idEquipment)).orElseThrow(() -> new NotFoundEquipment("Not found equipment"));
-        EquipmentModel equipmentModel = this.checkIfModelOfEquipmentExistAndReturn(equipmentUpdateDTO.nameModelEquipment());
+        EquipmentModel equipmentModel = this.checkIfModelOfEquipmentExistAndReturn(equipmentUpdateDTO.modelName());
         equipment.setName(equipmentUpdateDTO.nameEquipment());
         equipment.setModel(equipmentModel);
-        this.repository.save(equipment);
         return this.repository.save(equipment).getId();
     }
 

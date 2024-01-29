@@ -1,6 +1,5 @@
 package me.dri.aiko.services.interfaces;
 
-import me.dri.aiko.entities.Equipment;
 import me.dri.aiko.entities.dto.EquipmentInputDTO;
 import me.dri.aiko.entities.dto.EquipmentResponseDTO;
 import me.dri.aiko.entities.dto.EquipmentUpdateDTO;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EquipmentService {
-    List<Equipment> findAll();
+    List<EquipmentResponseDTO> findAll();
     EquipmentResponseDTO findEquipmentByName(String nameEquipment);
     EquipmentResponseDTO findEquipmentById(String idEquipment);
     UUID createEquipment(EquipmentInputDTO equipmentInputDTO);

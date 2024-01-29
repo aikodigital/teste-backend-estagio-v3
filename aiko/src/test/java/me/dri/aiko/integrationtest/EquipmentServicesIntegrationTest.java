@@ -1,12 +1,14 @@
 package me.dri.aiko.integrationtest;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import me.dri.aiko.entities.dto.EquipmentInputDTO;
 import me.dri.aiko.entities.dto.EquipmentUpdateDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class EquipmentServicesIntegrationTest {
 
@@ -19,19 +21,56 @@ public class EquipmentServicesIntegrationTest {
     @Test
     public void testCreateEquipment() {
         EquipmentInputDTO newEquipmentDto = new EquipmentInputDTO("Caminhão de carga", "Test");
-        idEquipementForTests = String.valueOf(given().body(newEquipmentDto).when().post().then().statusCode(200).extract().response());
+        idEquipementForTests =
+                String.valueOf(given()
+                .contentType(ContentType.JSON)
+                .body(newEquipmentDto)
+                .when()
+                .post()
+                .then()
+                .statusCode(200).extract().response());
     }
+
+    @Test
+    public void testNotFoundEquipmentModel() {
+        EquipmentInputDTO newEquipmentDto = new EquipmentInputDTO("", "Test");
+                given()
+                        .contentType(ContentType.JSON)
+                        .body(newEquipmentDto)
+                        .when()
+                        .post()
+                        .then()
+                        .statusCode(404)
+                        .body("details", equalTo("The model: " + newEquipmentDto.modelName() + " Not found!!"))
+                        .extract().response();
+    }
+
+
+    @Test
+    public void testFailedCreateEquipmentFormatException() {
+        EquipmentInputDTO newEquipmentDto = new EquipmentInputDTO("Caminhão de carga", "");
+                given()
+                        .contentType(ContentType.JSON)
+                        .body(newEquipmentDto)
+                        .when()
+                        .post()
+                        .then()
+                        .statusCode(400);
+    }
+
 
     @Test
     public void testUpdateEquipmentByName() {
         EquipmentUpdateDTO updateDTO = new EquipmentUpdateDTO("TestUpdated", "Caminhão de carga");
-        given().body(updateDTO).when().put("/Test").then().statusCode(200);
-
+        given()
+                .contentType(ContentType.JSON)
+                .body(updateDTO).when().put("/Test").then().statusCode(200);
     }
     @Test
     public void testUpdateEquipmentById() {
-        EquipmentInputDTO newEquipmentDto = new EquipmentInputDTO("Caminhão de carga", "Test");
-        given().body(newEquipmentDto).when().put("/api/equipments/" + idEquipementForTests).then().statusCode(200);
+        EquipmentUpdateDTO newEquipmentDto = new EquipmentUpdateDTO("TestUpdated1", "Caminhão de carga");
+        given().contentType(ContentType.JSON)
+                .body(newEquipmentDto).when().put("/id/5d4868d0-0590-4fad-a42e-f46930759fe4").then().statusCode(200);
     }
     @Test
     public void testDeleteEquipmentByName() {
