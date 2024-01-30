@@ -28,17 +28,21 @@ public class EquipmentController {
     public List<EquipmentResponseDTO> findAll() {
         return this.service.findAll();
     }
+
+    @GetMapping(path = "/{equipmentName}")
+    public ResponseEntity<EquipmentResponseDTO> findEquipmentByName(@PathVariable String equipmentName) {
+        return ResponseEntity.ok(this.service.findEquipmentByName(equipmentName));
+    }
+
+    @GetMapping(path = "/id/{idEquipment}")
+    public ResponseEntity<EquipmentResponseDTO> findEquipmentById(@PathVariable String idEquipment) {
+        return ResponseEntity.ok(this.service.findEquipmentById(idEquipment));
+    }
+
     @PostMapping
-    public ResponseEntity<UUID> create(@RequestBody EquipmentInputDTO equipmentInputDTO) {
+    public ResponseEntity<EquipmentResponseDTO> create(@RequestBody EquipmentInputDTO equipmentInputDTO) {
         return  ResponseEntity.ok(this.service.createEquipment(equipmentInputDTO));
     }
-
-    @DeleteMapping(path = "/{nameEquipment}")
-    public ResponseEntity deleteByName(@PathVariable String nameEquipment) {
-        this.service.deleteEquipmentByName(nameEquipment);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
     @PutMapping(path = "/{nameEquipment}")
     public ResponseEntity updateEquipmentByName(@PathVariable String nameEquipment, @RequestBody EquipmentUpdateDTO equipmentUpdateDTO) {
         return ResponseEntity.ok(this.service.updateEquipmentByName(nameEquipment, equipmentUpdateDTO));
@@ -48,4 +52,16 @@ public class EquipmentController {
     public ResponseEntity updateEquipmentById(@PathVariable String idEquipment , @RequestBody EquipmentUpdateDTO equipmentUpdateDTO) {
         return ResponseEntity.ok(this.service.updateEquipmentById(idEquipment, equipmentUpdateDTO));
     }
+
+    @DeleteMapping(path = "/{nameEquipment}")
+    public ResponseEntity deleteByName(@PathVariable String nameEquipment) {
+        this.service.deleteEquipmentByName(nameEquipment);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    @DeleteMapping(path = "/id/{idEquipment}")
+    public ResponseEntity deleteById(@PathVariable String idEquipment) {
+        this.service.deleteEquipmentById(idEquipment);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

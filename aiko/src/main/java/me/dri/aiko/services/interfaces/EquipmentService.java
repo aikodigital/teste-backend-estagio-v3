@@ -11,10 +11,10 @@ public interface EquipmentService {
     List<EquipmentResponseDTO> findAll();
     EquipmentResponseDTO findEquipmentByName(String nameEquipment);
     EquipmentResponseDTO findEquipmentById(String idEquipment);
-    UUID createEquipment(EquipmentInputDTO equipmentInputDTO);
+    EquipmentResponseDTO createEquipment(EquipmentInputDTO equipmentInputDTO);
     void deleteEquipmentByName(String nameEquipment);
     void deleteEquipmentById(String idEquipment);
-    UUID updateEquipmentByName(String nameEquipment, EquipmentUpdateDTO atualizedEquipment);
-     UUID updateEquipmentById(String idEquipment, EquipmentUpdateDTO atualizedEquipment);
+    EquipmentResponseDTO updateEquipmentByName(String nameEquipment, EquipmentUpdateDTO atualizedEquipment);
+    EquipmentResponseDTO updateEquipmentById(String idEquipment, EquipmentUpdateDTO atualizedEquipment);
 
 }
