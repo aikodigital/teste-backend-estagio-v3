@@ -2,6 +2,7 @@ package me.dri.aiko.controllers;
 
 import me.dri.aiko.entities.dto.EquipmentStateInputDTO;
 import me.dri.aiko.entities.dto.EquipmentStateResponseDTO;
+import me.dri.aiko.entities.dto.EquipmentStateUpdateDTO;
 import me.dri.aiko.services.interfaces.EquipmentStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,26 @@ public class EquipmentStateController {
     @PostMapping
     public ResponseEntity<EquipmentStateResponseDTO> createEquipmentState(@RequestBody EquipmentStateInputDTO newEquipmentState) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.equipmentStateService.createEquipmentState(newEquipmentState));
+    }
+    @PutMapping(path = "/{equipmentStateName}")
+    public ResponseEntity<EquipmentStateResponseDTO> updateEquipmentStateByName(@PathVariable String equipmentStateName, @RequestBody EquipmentStateUpdateDTO equipmentUpdateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.equipmentStateService.updateEquipmentStateByName(equipmentStateName,equipmentUpdateDTO));
+    }
+
+    @PutMapping(path = "/id/{idEquipmentState}")
+    public ResponseEntity<EquipmentStateResponseDTO> updateEquipmentStateById(@PathVariable String idEquipmentState, @RequestBody EquipmentStateUpdateDTO equipmentUpdateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.equipmentStateService.updateEquipmentStateById(idEquipmentState,equipmentUpdateDTO));
+    }
+
+    @DeleteMapping(path = "/{nameEquipmentState}")
+    public ResponseEntity deleteEquipmentStateByName(@PathVariable String nameEquipmentState) {
+        this.equipmentStateService.deleteEquipmentStateByName(nameEquipmentState);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping(path = "/id/{idEquipmentState}")
+    public ResponseEntity deleteEquipmentStateById(@PathVariable String idEquipmentState) {
+        this.equipmentStateService.deleteEquipmentStateById(idEquipmentState);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

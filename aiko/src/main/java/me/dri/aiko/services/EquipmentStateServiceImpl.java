@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import me.dri.aiko.entities.EquipmentState;
 import me.dri.aiko.entities.dto.EquipmentStateInputDTO;
 import me.dri.aiko.entities.dto.EquipmentStateResponseDTO;
+import me.dri.aiko.entities.dto.EquipmentStateUpdateDTO;
+import me.dri.aiko.exception.INvalidFormatEquipmentState;
 import me.dri.aiko.exception.NotFoundEquipmentState;
 import me.dri.aiko.repositories.EquipmentStateRepository;
 import me.dri.aiko.services.interfaces.EquipmentStateService;
@@ -31,12 +33,14 @@ public class EquipmentStateServiceImpl  implements EquipmentStateService {
 
     @Override
     public EquipmentStateResponseDTO findEquipmentStateByName(String nameStateEquipment) {
+        this.checkInputsStrings(nameStateEquipment);
         EquipmentState equipmentState = this.stateRepository.findEquipmentStateByName(nameStateEquipment).orElseThrow(() -> new NotFoundEquipmentState("Not found equipment state!!!"));
         return new EquipmentStateResponseDTO(equipmentState.getId().toString(), equipmentState.getName(), equipmentState.getColor());
     }
 
     @Override
     public EquipmentStateResponseDTO findEquipmentStateById(String idStateEquipment) {
+        this.checkInputsStrings(idStateEquipment);
         EquipmentState equipmentState = this.stateRepository.findEquipmentStateById(UUID.fromString(idStateEquipment)).orElseThrow(() -> new NotFoundEquipmentState("Not found equipment state!!!"));
         return new EquipmentStateResponseDTO(equipmentState.getId().toString(), equipmentState.getName(), equipmentState.getColor());
     }
@@ -44,7 +48,7 @@ public class EquipmentStateServiceImpl  implements EquipmentStateService {
     @Transactional
     @Override
     public EquipmentStateResponseDTO createEquipmentState(EquipmentStateInputDTO equipmentStateInputDTO) {
-        EquipmentState equipmentState = this.checkIfEquipmentStateAlreadyExistAndReturn(equipmentStateInputDTO);
+        EquipmentState equipmentState = this.checkIfEquipmentStateAlreadyExistAndReturn(equipmentStateInputDTO.name());
         if (equipmentState == null) {
             EquipmentState newEquipmentState = new EquipmentState(null, equipmentStateInputDTO.name(), equipmentStateInputDTO.color());
             return new EquipmentStateResponseDTO(this.stateRepository.save(newEquipmentState).getId().toString(), newEquipmentState.getName(), newEquipmentState.getColor());
@@ -52,28 +56,48 @@ public class EquipmentStateServiceImpl  implements EquipmentStateService {
         return new EquipmentStateResponseDTO(equipmentState.getId().toString(), equipmentState.getName(), equipmentState.getColor());
     }
 
+    @Transactional
     @Override
-    public EquipmentStateResponseDTO updateEquipmentStateByName(String nameStateEquipment) {
-        return null;
+    public EquipmentStateResponseDTO updateEquipmentStateByName(String equipmentStateName, EquipmentStateUpdateDTO equipmentUpdateDTO) {
+        EquipmentState equipmentState = this.stateRepository.findEquipmentStateByName(equipmentStateName).orElseThrow(() -> new NotFoundEquipmentState("Not found equipment state"));
+        equipmentState.setName(equipmentUpdateDTO.name());
+        equipmentState.setColor(equipmentUpdateDTO.color());
+        return new EquipmentStateResponseDTO(this.stateRepository.save(equipmentState).getId().toString(), equipmentState.getName(), equipmentState.getColor());
+    }
+    @Transactional
+    @Override
+    public EquipmentStateResponseDTO updateEquipmentStateById(String equipmentStateId,EquipmentStateUpdateDTO equipmentUpdateDTO) {
+        EquipmentState equipmentState = this.stateRepository.findEquipmentStateById(UUID.fromString(equipmentStateId)).orElseThrow(() -> new NotFoundEquipmentState("Not found equipment state"));
+        equipmentState.setName(equipmentUpdateDTO.name());
+        equipmentState.setColor(equipmentUpdateDTO.color());
+        return new EquipmentStateResponseDTO(this.stateRepository.save(equipmentState).getId().toString(), equipmentState.getName(), equipmentState.getColor());
     }
 
-    @Override
-    public EquipmentStateResponseDTO updateEquipmentStateById(String idStateEquipment) {
-        return null;
-    }
-
+    @Transactional
     @Override
     public void deleteEquipmentStateByName(String nameStateEquipment) {
-
+        this.checkInputsStrings(nameStateEquipment);
+        EquipmentState equipmentState = this.stateRepository.findEquipmentStateByName(nameStateEquipment).orElseThrow(() -> new NotFoundEquipmentState("Not found equipment state"));
+        this.stateRepository.delete(equipmentState);
     }
-
+    @Transactional
     @Override
     public void deleteEquipmentStateById(String idStateEquipment) {
+        this.checkInputsStrings(idStateEquipment);
+        EquipmentState equipmentState = this.stateRepository.findEquipmentStateById(UUID.fromString(idStateEquipment)).orElseThrow(() -> new NotFoundEquipmentState("Not found equipment state"));
+        this.stateRepository.delete(equipmentState);
 
     }
 
-    private EquipmentState checkIfEquipmentStateAlreadyExistAndReturn(EquipmentStateInputDTO equipmentStateInputDTO) {
-        Optional<EquipmentState> equipmentState = this.stateRepository.findEquipmentStateByName(equipmentStateInputDTO.name());
+    private EquipmentState checkIfEquipmentStateAlreadyExistAndReturn(String nameEquipmentState) {
+        this.checkInputsStrings(nameEquipmentState);
+        Optional<EquipmentState> equipmentState = this.stateRepository.findEquipmentStateByName(nameEquipmentState);
         return equipmentState.orElse(null);
+    }
+
+    private void checkInputsStrings(String input) {
+        if (input.isBlank() || input.isEmpty()) {
+            throw new INvalidFormatEquipmentState("Invalid format equipment state input");
+        }
     }
 }

@@ -105,4 +105,81 @@ public class EquipmentServicesIntegrationTest {
   //  public void testDeleteEquipmentByName() {
    //     given().when().delete("/TestUpdated1").then().statusCode(204);
 
+    @Test
+    @Order(9)
+    public void testCreateInvalidEquipment() {
+        // Test creating an equipment with invalid data (e.g., empty name or model)
+        EquipmentInputDTO invalidEquipmentDto = new EquipmentInputDTO("", "InvalidModel");
+        given()
+                .contentType(ContentType.JSON)
+                .body(invalidEquipmentDto)
+                .when()
+                .post()
+                .then()
+                .statusCode(400); // Assuming you return a 400 status for invalid input
+    }
+
+    @Test
+    @Order(10)
+    public void testUpdateNonexistentEquipment() {
+        // Test updating an equipment that doesn't exist
+        EquipmentUpdateDTO updateDTO = new EquipmentUpdateDTO("UpdatedName", "UpdatedModel");
+        given()
+                .contentType(ContentType.JSON)
+                .body(updateDTO)
+                .when()
+                .put("/id/idfalso")
+                .then()
+                .statusCode(404); // Assuming you return a 404 status for not found
+    }
+
+    @Test
+    @Order(11)
+    public void testDeleteNonexistentEquipmentByName() {
+        // Test deleting an equipment by name that doesn't exist
+        given()
+                .when()
+                .delete("/NonexistentEquipment")
+                .then()
+                .statusCode(204); // Assuming you return a 204 status even if the equipment doesn't exist
+    }
+
+    @Test
+    @Order(12)
+    public void testDeleteNonexistentEquipmentById() {
+        // Test deleting an equipment by ID that doesn't exist
+        given()
+                .when()
+                .delete("/id/nonexistentId")
+                .then()
+                .statusCode(204); // Assuming you return a 204 status even if the equipment doesn't exist
+    }
+
+    @Test
+    @Order(13)
+    public void testCreateAndUpdateEquipment() {
+        // Test creating an equipment and then updating it
+        EquipmentInputDTO newEquipmentDto = new EquipmentInputDTO("TestEquipmentCreateUpdate", "TestModel");
+        String equipmentId = given()
+                .contentType(ContentType.JSON)
+                .body(newEquipmentDto)
+                .when()
+                .post()
+                .then()
+                .statusCode(200)
+                .extract()
+                .path("id");
+
+        EquipmentUpdateDTO updateDTO = new EquipmentUpdateDTO("UpdatedName", "UpdatedModel");
+        given()
+                .contentType(ContentType.JSON)
+                .body(updateDTO)
+                .when()
+                .put("/id/" + equipmentId)
+                .then()
+                .statusCode(200)
+                .body("nameEquipment", equalTo("UpdatedName"),
+                        "modelEquipment", equalTo("UpdatedModel"));
+    }
+
 }

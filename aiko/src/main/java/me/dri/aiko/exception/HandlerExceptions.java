@@ -33,4 +33,12 @@ public class HandlerExceptions {
     public ResponseEntity<ExceptionEntity> notFoundEquipment(HttpServletRequest req, NotFoundEquipment e) {
         return this.throwerException.throwException(e,  req, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(INvalidFormatEquipmentState.class)
+    public ResponseEntity<ExceptionEntity> invalidFormatEquipmentState(HttpServletRequest req, INvalidFormatEquipmentState e) {
+        return this.throwerException.throwException(e,  req, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(NotFoundEquipmentState.class)
+    public ResponseEntity<ExceptionEntity> notFoundEquipmentState(HttpServletRequest req, NotFoundEquipmentState e) {
+        return this.throwerException.throwException(e,  req, HttpStatus.NOT_FOUND);
+    }
 }
