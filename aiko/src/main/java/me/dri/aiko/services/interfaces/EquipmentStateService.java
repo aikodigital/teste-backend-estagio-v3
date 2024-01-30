@@ -3,7 +3,6 @@ package me.dri.aiko.services.interfaces;
 import me.dri.aiko.entities.dto.EquipmentStateInputDTO;
 import me.dri.aiko.entities.dto.EquipmentStateResponseDTO;
 import me.dri.aiko.entities.dto.EquipmentStateUpdateDTO;
-import me.dri.aiko.entities.dto.EquipmentUpdateDTO;
 
 import java.util.List;
 

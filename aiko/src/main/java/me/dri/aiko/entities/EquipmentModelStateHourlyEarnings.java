@@ -1,23 +1,21 @@
 package me.dri.aiko.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Table(name = "equipment_model_state_hourly_earnings")
+@AllArgsConstructor
 @Data
 public class EquipmentModelStateHourlyEarnings {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "equipmentModelId", referencedColumnName = "id")
-    private EquipmentModel equipmentModel;
+    public EquipmentModelStateHourlyEarnings() {
 
+    }
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "equipmentStateId", referencedColumnName = "id")
-    private EquipmentState equipmentState;
+    @EmbeddedId
+    private EquipmentModelStateHourlyEarningsId id;
 
     private Double value;
 }
