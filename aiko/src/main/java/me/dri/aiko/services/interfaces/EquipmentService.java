@@ -5,7 +5,6 @@ import me.dri.aiko.entities.dto.EquipmentResponseDTO;
 import me.dri.aiko.entities.dto.EquipmentUpdateDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface EquipmentService {
     List<EquipmentResponseDTO> findAll();
