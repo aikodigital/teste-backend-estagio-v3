@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,7 +14,9 @@ import java.util.UUID;
 @Entity
 @Table (name = "equipment_state")
 @Data
+@AllArgsConstructor
 public class EquipmentState {
+
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -22,5 +25,8 @@ public class EquipmentState {
     private String name;
     private String color;
 
+    public EquipmentState() {
+
+    }
 
 }
